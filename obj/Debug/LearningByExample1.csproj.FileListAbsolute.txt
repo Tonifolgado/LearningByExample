@@ -1,0 +1,2 @@
+D:\Folgado2018\CodeCompilation\LearningByExampleLocal\obj\Debug\LearningByExample1.csprojAssemblyReference.cache
+D:\Folgado2018\CodeCompilation\LearningByExampleLocal\obj\Debug\LearningByExample1.csproj.CoreCompileInputs.cache
