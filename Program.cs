@@ -18,217 +18,57 @@ namespace LearningByExample1
             EventsCallbacks ecb = new EventsCallbacks();
             ExceptionHandling exh = new ExceptionHandling();
 
-            mostrarMenu();
-
-            void mostrarMenu()
-            {
-            Console.WriteLine("MENU");
-            Console.WriteLine("I. THREADS");
-            Console.WriteLine("  1.TwoThreads");
-            Console.WriteLine("  2.ThreadWithMethodParam");
-            Console.WriteLine("  3.HowToStopThread");
-            Console.WriteLine("  4.UseOfThreadStatic");
-            Console.WriteLine("  5.UsingThreadLocalData");
-            Console.WriteLine("II. TASKS");
-            Console.WriteLine("  6.usingThreadPool");
-            Console.WriteLine("  7.UsingTask");
-            Console.WriteLine("  8.usingTaskReturningValue");
-            Console.WriteLine("  9.usingTaskContinuation");
-            Console.WriteLine("  10.differentContinuationTasks");
-            Console.WriteLine("  11.childTasks");
-            Console.WriteLine("  12.usingTaskFactory");
-            Console.WriteLine("  13.waitForMultipleTasks");
-            Console.WriteLine("  14.waitanyMultipleTasks");
-            Console.WriteLine("  15.continuationForCancelledTask");
-            Console.WriteLine("  16.taskTimeout");
-            Console.WriteLine("III. PLINQ");
-            Console.WriteLine("  17.AsyncyAwait");
-            Console.WriteLine("  18.unorderedParallelQuery");
-            Console.WriteLine("  19.orderedParallelQuery");
-            Console.WriteLine("  20.makeParallelSequential");
-            Console.WriteLine("  21.usingForAll");
-            Console.WriteLine("  22.catchingAggregateException");
-            Console.WriteLine("IV. CONCURRENT COLLECTIONS");
-            Console.WriteLine("  23.usingBlockingCollection");
-            Console.WriteLine("  24.BlockingCollectionWithGetConsumingEnum");
-            Console.WriteLine("  25.usingConcurrentBag");
-            Console.WriteLine("  26.concurrentBagEnumerate");
-            Console.WriteLine("  27.usingConcurrentStack");
-            Console.WriteLine("  28.usingConcurrentQueue");
-            Console.WriteLine("  29.usingConcurrentDictionary");
-            Console.WriteLine("V. SYNCHRONIZATION");
-            Console.WriteLine("  30.usingLock");
-            Console.WriteLine("  31.usingInterLocked");
-            Console.WriteLine("  32.usingCancellationToken");
-            Console.WriteLine("  33.usingOperationCanceledException");
-            Console.WriteLine("VI. PROGRAM FLOW");
-            Console.WriteLine("  34.complexIFstatement");
-            Console.WriteLine("  35.CheckWithSwitch");
-            Console.WriteLine("  36.switchWithGoto");
-            Console.WriteLine("  37.basicFor");
-            Console.WriteLine("  38.loopWithMultipleVariables");
-            Console.WriteLine("  39.breakAndContinue");
-            Console.WriteLine("VII. EXCEPTION HANDLING");
-            Console.WriteLine("  40.catchingFormatException");
-            Console.WriteLine("  41.usingEnvironmentFailfast");
-            Console.WriteLine("  42.inspectingException");
-            Console.WriteLine("  43.UsingExceptionDispatchInfo");
-
-
-            }
-
-
             /* PROGRAM FLOW */
-            void MenuProgramFlow(string input)
-            {
-                switch (input)
-                {
-                    case "23":
-                        { flw.complexIFstatement('e'); break; }
-                    case "24":
-                        { flw.CheckWithSwitch('y'); break; }
-                    case "25":
-                        { flw.switchWithGoto(); break; }
-                    case "26":
-                        { flw.basicFor(); break; }
-                    case "27":
-                        { flw.loopWithMultipleVariables(); break; }
-                    case "28":
-                        { flw.breakAndContinue(); break; }
-                    default:
-                        { Console.WriteLine("Input incorrect"); break; }
-                }
-            }
+            //flw.complexIFstatement('e'); 
+            //flw.CheckWithSwitch('y'); 
+            //flw.switchWithGoto(); 
+            //flw.basicFor(); 
+            //flw.loopWithMultipleVariables(); 
+            //flw.breakAndContinue();
             /* THREADS */
-            void MenuThreads(string input)
-            {
-                switch (input)
-                {
-                    case "1":
-                        { mth.TwoThreads(); break;}
-                    case "2":
-                        { mth.ThreadWithMethodParam(); break;}
-                    case "3":
-                        { mth.HowToStopThread(); break;}
-                    case "4":
-                        { mth.UseOfThreadStatic(); break;}
-                    case "5":
-                        { mth.UsingThreadLocalData(); break;}
-                    default:
-                        { Console.WriteLine("Input incorrect"); break;}
-                }
-            }
+            //mth.TwoThreads();
+            //mth.ThreadWithMethodParam();
+            //mth.HowToStopThread();
+            //mth.UseOfThreadStatic();
+            //mth.UsingThreadLocalData();
             /* TASKS */
-            void MenuTasks(string input)
-            {
-                switch (input)
-                {
-                    case "6":
-                        { mth.usingThreadPool(); break; }
-                    case "7":
-                        { mth.UsingTask(); break; }
-                    case "8":
-                        { mth.usingTaskReturningValue(21); break; }
-                    case "9":
-                        { mth.usingTaskContinuation(21); break; }
-                    case "10":
-                        { mth.differentContinuationTasks(456); break; }
-                    case "11":
-                        { mth.childTasks(); break; }
-                    case "12":
-                        { mth.usingTaskFactory(); break; }
-                    case "13":
-                        { mth.waitForMultipleTasks(); break; }
-                    case "14":
-                        { mth.waitanyMultipleTasks(); break; }
-                    case "15":
-                        { mth.continuationForCancelledTask(); break; }
-                    case "16":
-                        { mth.taskTimeout(); break; }
-                    default:
-                        { Console.WriteLine("Input incorrect"); break; }
-                }
-            }
+            //mth.usingThreadPool(); 
+            //mth.UsingTask();
+            //mth.usingTaskReturningValue(21);
+            //mth.usingTaskContinuation(21);
+            //mth.differentContinuationTasks(456);
+            //mth.childTasks();
+            //mth.usingTaskFactory();
+            //mth.waitForMultipleTasks();
+            //mth.waitanyMultipleTasks();
+            //mth.continuationForCancelledTask();
+            //mth.taskTimeout();
             /* PLINQ */
-            void MenuPLIMQ(string input)
-            {
-                switch (input)
-                {
-                    case "17":
-                        { mth.AsyncyAwait(); break; }
-                    case "18":
-                        { mth.unorderedParallelQuery(); break; }
-                    case "19":
-                        { mth.orderedParallelQuery(); break; }
-                    case "20":
-                        { mth.makeParallelSequential(); break; }
-                    case "21":
-                        { mth.usingForAll(); break; }
-                    case "22":
-                        { mth.catchingAggregateException(); break; }
-                    default:
-                        { Console.WriteLine("Input incorrect"); break; }
-                }
-            }
+            //mth.AsyncyAwait();
+            //mth.unorderedParallelQuery(); 
+            //mth.orderedParallelQuery();
+            //mth.makeParallelSequential();
+            //mth.usingForAll();
+            //mth.catchingAggregateException();            
             /* CONCURRENT COLLECTIONS */
-            void MenuConcurrentCollections(string input)
-            {
-                switch (input)
-                {
-                    case "23":
-                        { mth.usingBlockingCollection(); break; }
-                    case "24":
-                        { mth.BlockingCollectionWithGetConsumingEnum(); break; }
-                    case "25":
-                        { mth.usingConcurrentBag(); break; }
-                    case "26":
-                        { mth.concurrentBagEnumerate(); break; }
-                    case "27":
-                        { mth.usingConcurrentStack(); break; }
-                    case "28":
-                        { mth.usingConcurrentQueue(); break; }
-                    case "29":
-                        { mth.usingConcurrentDictionary(); break; }
-                    default:
-                        { Console.WriteLine("Input incorrect"); break; }
-                }
-            }
+            //mth.usingBlockingCollection();
+            //mth.BlockingCollectionWithGetConsumingEnum(); 
+            //mth.usingConcurrentBag();
+            //mth.concurrentBagEnumerate();
+            //mth.usingConcurrentStack();
+            //mth.usingConcurrentQueue();
+            //mth.usingConcurrentDictionary();            
             /* SYNCHRONIZATION */
-            void MenuSynchronization(string input)
-            {
-                switch (input)
-                {
-                    case "30":
-                        { mth.usingLock(); break; }
-                    case "31":
-                        { mth.usingInterLocked(); break; }
-                    case "32":
-                        { mth.usingCancellationToken(); break; }
-                    case "33":
-                        { mth.usingOperationCanceledException(); break; }
-                    default:
-                        { Console.WriteLine("Input incorrect"); break; }
-                }
-            }
+            //mth.usingLock();
+            //mth.usingInterLocked();
+            //mth.usingCancellationToken(); 
+            //mth.usingOperationCanceledException();            
             /* EXCEPTION HANDLING */
-            void MenuExceptionHandling(string input)
-            {
-                switch (input)
-                {
-                    case "40":
-                        { exh.catchingFormatException(); break; }
-                    case "41":
-                        { exh.usingEnvironmentFailfast(); break; }
-                    case "42":
-                        { exh.inspectingException(); break; }
-                    case "43":
-                        { exh.UsingExceptionDispatchInfo(); break; }
-                    default:
-                        { Console.WriteLine("Input incorrect"); break; }
-                }
-            }
-
-
+            //exh.catchingFormatException();
+            //exh.usingEnvironmentFailfast();
+            //exh.inspectingException(); 
+            //exh.UsingExceptionDispatchInfo();
+            
             //ecb.UseDelegate();
             //ecb.multicastDelegate();
             //ecb.usingActionDelegate();
@@ -253,6 +93,12 @@ namespace LearningByExample1
             //ecb.Raise2();
 
             Console.ReadLine();
+            
+
+
+            }
+
+
 
         }
 
