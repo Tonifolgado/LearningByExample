@@ -5,3 +5,10 @@ D:\Folgado2018\CodeCompilation\LearningByExampleLocal\bin\Debug\LearningByExampl
 D:\Folgado2018\CodeCompilation\LearningByExampleLocal\bin\Debug\LearningByExample1.pdb
 D:\Folgado2018\CodeCompilation\LearningByExampleLocal\obj\Debug\LearningByExample1.exe
 D:\Folgado2018\CodeCompilation\LearningByExampleLocal\obj\Debug\LearningByExample1.pdb
+C:\MiCode\LearningByExampleLocal\bin\Debug\LearningByExample1.exe.config
+C:\MiCode\LearningByExampleLocal\bin\Debug\LearningByExample1.exe
+C:\MiCode\LearningByExampleLocal\bin\Debug\LearningByExample1.pdb
+C:\MiCode\LearningByExampleLocal\obj\Debug\LearningByExample1.csprojAssemblyReference.cache
+C:\MiCode\LearningByExampleLocal\obj\Debug\LearningByExample1.csproj.CoreCompileInputs.cache
+C:\MiCode\LearningByExampleLocal\obj\Debug\LearningByExample1.exe
+C:\MiCode\LearningByExampleLocal\obj\Debug\LearningByExample1.pdb
