@@ -29,7 +29,6 @@ namespace LearningByExample1
             Console.WriteLine("  3.HowToStopThread");
             Console.WriteLine("  4.UseOfThreadStatic");
             Console.WriteLine("  5.UsingThreadLocalData");
-
             Console.WriteLine("II. TASKS");
             Console.WriteLine("  6.usingThreadPool");
             Console.WriteLine("  7.UsingTask");
@@ -41,22 +40,10 @@ namespace LearningByExample1
             Console.WriteLine("  13.waitForMultipleTasks");
             Console.WriteLine("  14.waitanyMultipleTasks");
             Console.WriteLine("  15.continuationForCancelledTask");
-            Console.WriteLine("  16.taskTimeout");            
+            Console.WriteLine("  16.taskTimeout");
 
-            /* TASKS */
-            //mth.usingThreadPool();
-            //mth.UsingTask();
-            //mth.usingTaskReturningValue(21);
-            //mth.usingTaskContinuation(21);
-            //mth.differentContinuationTasks(456);
-            //mth.childTasks();
-            //mth.usingTaskFactory();
-            //mth.waitForMultipleTasks();
-            //mth.waitanyMultipleTasks();
-            //mth.continuationForCancelledTask();
-            //mth.taskTimeout();
 
-            Console.WriteLine("III. PLINQ");
+                Console.WriteLine("III. PLINQ");
             Console.WriteLine("  17.AsyncyAwait");
             Console.WriteLine("  18.unorderedParallelQuery");
             Console.WriteLine("  19.orderedParallelQuery");
@@ -80,7 +67,7 @@ namespace LearningByExample1
             Console.WriteLine("  27.usingConcurrentStack");
             Console.WriteLine("  28.usingConcurrentQueue");
             Console.WriteLine("  29.usingConcurrentDictionary");
-            
+
             /* CONCURRENT COLLECTIONS */
             //mth.usingBlockingCollection();
             //mth.BlockingCollectionWithGetConsumingEnum();
@@ -119,43 +106,60 @@ namespace LearningByExample1
                 //flw.breakAndContinue();
 
             }
+
+            /* THREADS */
             void MenuThreads(string input)
             {
                 switch (input)
                 {
                     case "1":
-                        {
-                            mth.TwoThreads();
-                            break;
-                        }
+                        { mth.TwoThreads(); break;}
                     case "2":
-                        {
-                            mth.ThreadWithMethodParam();
-                            break;
-                        }
+                        { mth.ThreadWithMethodParam(); break;}
                     case "3":
-                        {
-                            mth.HowToStopThread();
-                            break;
-                        }
+                        { mth.HowToStopThread(); break;}
                     case "4":
-                        {
-                            mth.UseOfThreadStatic();
-                            break;
-                        }
+                        { mth.UseOfThreadStatic(); break;}
                     case "5":
-                        {
-                            mth.UsingThreadLocalData();
-                            break;
-                        }
+                        { mth.UsingThreadLocalData(); break;}
                     default:
-                        {
-                            Console.WriteLine("Input incorrect");
-                            break;
-                        }
+                        { Console.WriteLine("Input incorrect"); break;}
                 }
             }
-            
+            /* TASKS */
+            void MenuTasks(string input)
+            {
+                switch (input)
+                {
+                    case "6":
+                        { mth.usingThreadPool(); break; }
+                    case "7":
+                        { mth.UsingTask(); break; }
+                    case "8":
+                        { mth.usingTaskReturningValue(21); break; }
+                    case "9":
+                        { mth.usingTaskContinuation(21); break; }
+                    case "10":
+                        { mth.differentContinuationTasks(456); break; }
+                    case "11":
+                        { mth.childTasks(); break; }
+                    case "12":
+                        { mth.usingTaskFactory(); break; }
+                    case "13":
+                        { mth.waitForMultipleTasks(); break; }
+                    case "14":
+                        { mth.waitanyMultipleTasks(); break; }
+                    case "15":
+                        { mth.continuationForCancelledTask(); break; }
+                    case "16":
+                        { mth.taskTimeout(); break; }
+                    default:
+                        { Console.WriteLine("Input incorrect"); break; }
+                }
+            }
+
+
+
             //ecb.UseDelegate();
             //ecb.multicastDelegate();
             //ecb.usingActionDelegate();
@@ -169,7 +173,7 @@ namespace LearningByExample1
 
             ecb.OnChange2 += (sender, e)
                     => Console.WriteLine("Event raised: {0}", e.Value);
-            
+
             ecb.OnChange2 += (sender, e)
                 => Console.WriteLine("Subscriber 1 called");
             //ecb.OnChange2 += (sender, e) => { throw new Exception(); };

@@ -1,2 +1,7 @@
 D:\Folgado2018\CodeCompilation\LearningByExampleLocal\obj\Debug\LearningByExample1.csprojAssemblyReference.cache
 D:\Folgado2018\CodeCompilation\LearningByExampleLocal\obj\Debug\LearningByExample1.csproj.CoreCompileInputs.cache
+D:\Folgado2018\CodeCompilation\LearningByExampleLocal\bin\Debug\LearningByExample1.exe.config
+D:\Folgado2018\CodeCompilation\LearningByExampleLocal\bin\Debug\LearningByExample1.exe
+D:\Folgado2018\CodeCompilation\LearningByExampleLocal\bin\Debug\LearningByExample1.pdb
+D:\Folgado2018\CodeCompilation\LearningByExampleLocal\obj\Debug\LearningByExample1.exe
+D:\Folgado2018\CodeCompilation\LearningByExampleLocal\obj\Debug\LearningByExample1.pdb
