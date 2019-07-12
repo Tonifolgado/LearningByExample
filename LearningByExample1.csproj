@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreateAndUseTypes.cs" />
     <Compile Include="EventsCallbacks.cs" />
     <Compile Include="ExceptionHandling.cs" />
     <Compile Include="Multithreading.cs" />

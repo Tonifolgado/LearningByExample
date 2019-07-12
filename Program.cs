@@ -68,11 +68,12 @@ namespace LearningByExample1
             //exh.usingEnvironmentFailfast();
             //exh.inspectingException(); 
             //exh.UsingExceptionDispatchInfo();
-            
+            /* EVENT MANAGEMENT */
             //ecb.UseDelegate();
             //ecb.multicastDelegate();
             //ecb.usingActionDelegate();
 
+            #region EventHandling
             //Subscription to the delegate OnChange
             //two anonymous methods that write a text on the console
             ecb.OnChange += () => Console.WriteLine("Event raised to method 1");
@@ -82,15 +83,15 @@ namespace LearningByExample1
 
             ecb.OnChange2 += (sender, e)
                     => Console.WriteLine("Event raised: {0}", e.Value);
-
             ecb.OnChange2 += (sender, e)
                 => Console.WriteLine("Subscriber 1 called");
             //ecb.OnChange2 += (sender, e) => { throw new Exception(); };
-
             ecb.OnChange2 += (sender, e)
                 => Console.WriteLine("Subscriber 3 called");
-
             //ecb.Raise2();
+
+            #endregion
+
 
             Console.ReadLine();
             
