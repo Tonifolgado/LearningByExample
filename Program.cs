@@ -17,6 +17,7 @@ namespace LearningByExample1
             ProgramFlow flw = new ProgramFlow();
             EventsCallbacks ecb = new EventsCallbacks();
             ExceptionHandling exh = new ExceptionHandling();
+            StringManagement strm = new StringManagement();
 
             /* PROGRAM FLOW */
             //flw.complexIFstatement('e'); 
@@ -92,6 +93,9 @@ namespace LearningByExample1
 
             #endregion
 
+            //strm.createLotOfStrings();
+            //strm.usingStringBuilder();
+            strm.StringWriterAsOutputForXMLwriter();
 
             Console.ReadLine();
             
