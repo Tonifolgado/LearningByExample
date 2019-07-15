@@ -89,7 +89,10 @@ namespace LearningByExample1
 
             //strm.createLotOfStrings();
             //strm.usingStringBuilder();
-            strm.StringWriterAsOutputForXMLwriter();
+            //strm.StringWriterAsOutputForXMLwriter();
+            strm.usingStrings();
+            //strm.ChangeStringWithRegex();
+
 
             Console.ReadLine();
         }
