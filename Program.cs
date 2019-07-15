@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace LearningByExample1
 {
-    class Program
+    internal class Program
     {
-
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Multithreading mth = new Multithreading();
             ProgramFlow flw = new ProgramFlow();
@@ -20,11 +13,11 @@ namespace LearningByExample1
             StringManagement strm = new StringManagement();
 
             /* PROGRAM FLOW */
-            //flw.complexIFstatement('e'); 
-            //flw.CheckWithSwitch('y'); 
-            //flw.switchWithGoto(); 
-            //flw.basicFor(); 
-            //flw.loopWithMultipleVariables(); 
+            //flw.complexIFstatement('e');
+            //flw.CheckWithSwitch('y');
+            //flw.switchWithGoto();
+            //flw.basicFor();
+            //flw.loopWithMultipleVariables();
             //flw.breakAndContinue();
             /* THREADS */
             //mth.TwoThreads();
@@ -33,7 +26,7 @@ namespace LearningByExample1
             //mth.UseOfThreadStatic();
             //mth.UsingThreadLocalData();
             /* TASKS */
-            //mth.usingThreadPool(); 
+            //mth.usingThreadPool();
             //mth.UsingTask();
             //mth.usingTaskReturningValue(21);
             //mth.usingTaskContinuation(21);
@@ -46,28 +39,28 @@ namespace LearningByExample1
             //mth.taskTimeout();
             /* PLINQ */
             //mth.AsyncyAwait();
-            //mth.unorderedParallelQuery(); 
+            //mth.unorderedParallelQuery();
             //mth.orderedParallelQuery();
             //mth.makeParallelSequential();
             //mth.usingForAll();
-            //mth.catchingAggregateException();            
+            //mth.catchingAggregateException();
             /* CONCURRENT COLLECTIONS */
             //mth.usingBlockingCollection();
-            //mth.BlockingCollectionWithGetConsumingEnum(); 
+            //mth.BlockingCollectionWithGetConsumingEnum();
             //mth.usingConcurrentBag();
             //mth.concurrentBagEnumerate();
             //mth.usingConcurrentStack();
             //mth.usingConcurrentQueue();
-            //mth.usingConcurrentDictionary();            
+            //mth.usingConcurrentDictionary();
             /* SYNCHRONIZATION */
             //mth.usingLock();
             //mth.usingInterLocked();
-            //mth.usingCancellationToken(); 
-            //mth.usingOperationCanceledException();            
+            //mth.usingCancellationToken();
+            //mth.usingOperationCanceledException();
             /* EXCEPTION HANDLING */
             //exh.catchingFormatException();
             //exh.usingEnvironmentFailfast();
-            //exh.inspectingException(); 
+            //exh.inspectingException();
             //exh.UsingExceptionDispatchInfo();
             /* EVENT MANAGEMENT */
             //ecb.UseDelegate();
@@ -75,6 +68,7 @@ namespace LearningByExample1
             //ecb.usingActionDelegate();
 
             #region EventHandling
+
             //Subscription to the delegate OnChange
             //two anonymous methods that write a text on the console
             ecb.OnChange += () => Console.WriteLine("Event raised to method 1");
@@ -91,24 +85,13 @@ namespace LearningByExample1
                 => Console.WriteLine("Subscriber 3 called");
             //ecb.Raise2();
 
-            #endregion
+            #endregion EventHandling
 
             //strm.createLotOfStrings();
             //strm.usingStringBuilder();
             strm.StringWriterAsOutputForXMLwriter();
 
             Console.ReadLine();
-            
-
-
-            }
-
-
-
         }
-
-
-
-
     }
-
+}

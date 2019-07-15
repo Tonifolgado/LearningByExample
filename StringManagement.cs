@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace LearningByExample1
@@ -24,6 +21,7 @@ namespace LearningByExample1
             }
             Console.WriteLine(s);
         }
+
         public void usingStringBuilder()
         {
             StringBuilder sb2 = new StringBuilder(string.Empty);
@@ -38,27 +36,24 @@ namespace LearningByExample1
             //change the character on the first position
             sb[0] = 'B';
             Console.WriteLine(sb);
-
-
-
         }
 
         public void StringWriterAsOutputForXMLwriter()
         {
             var stringWriter = new StringWriter();
             using (XmlWriter writer = XmlWriter.Create(stringWriter))
-                {
-                    writer.WriteStartElement("book");
-                    writer.WriteElementString("price", "19.95");
-                    writer.WriteEndElement();
-                    writer.Flush();
-                }
+            {
+                writer.WriteStartElement("book");
+                writer.WriteElementString("price", "19.95");
+                writer.WriteEndElement();
+                writer.Flush();
+            }
             string xml = stringWriter.ToString();
 
             //The value of xml is now:
             //<? xml version =\"1.0\" encoding=\"utf-16\"?>
-            //         < book >  
-            //           < price > 19.95 </ price >  
+            //         < book >
+            //           < price > 19.95 </ price >
             //         </ book >
             Console.WriteLine(xml);
         }
