@@ -84,10 +84,44 @@ namespace LearningByExample1
         }
         public string LastName { get; set; }
 
+            public Person(string firstName, string lastName)
+            {
+                this.FirstName = firstName;
+                this.LastName = lastName;
+            }
+
         public override string ToString()
         {
             return FirstName + " " + LastName;
         }
+
+        //a more detailed overriding of ToString method:
+        public string ToString(string format = "FL")
+            //the default value for the format is FL
+        {
+            //Trim quita los espacios en blanco
+            //ToUpper convierte en mayúsculas
+            format = format.Trim().ToUpperInvariant();
+
+            switch (format)
+            {
+                case "FL":
+                    return FirstName + " " + LastName;
+                case "LF":
+                    return LastName + " " + FirstName;
+                case "FSL":
+                    return FirstName + ", " + LastName;
+                case "LSF":
+                    return LastName + ", " + FirstName;
+                default:
+                    throw new FormatException(String.Format(
+                            "The '{0}' format string is not supported.", format));
+            }
+        }
+
+
+
+
 
     }
 
@@ -112,6 +146,8 @@ namespace LearningByExample1
             return GetEnumerator();
         }
     }
+
+    // ********************************
 
 
 

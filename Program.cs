@@ -87,11 +87,19 @@ namespace LearningByExample1
 
             #endregion EventHandling
 
+            Person p = new Person("John", "Doe");
+            Console.WriteLine(p);
+            // Displays 'John Doe' due to the overriding of ToString with default FL format
+            // use ToString to display first name and last name in format LSF
+            Console.WriteLine(p.ToString("LSF"));
+
+
             //strm.createLotOfStrings();
             //strm.usingStringBuilder();
             //strm.StringWriterAsOutputForXMLwriter();
-            strm.usingStrings();
+            //strm.usingStrings();
             //strm.ChangeStringWithRegex();
+            strm.formattingStrings();
 
 
             Console.ReadLine();

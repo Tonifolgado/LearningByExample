@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -98,6 +99,22 @@ namespace LearningByExample1
             //extract the patterns and puts blank
             foreach (string name in names)
                 Console.WriteLine(Regex.Replace(name, pattern, String.Empty));
+        }
+
+        public void formattingStrings()
+        {
+            Console.WriteLine("Format a number as a currency: ");
+            double cost = 1234.56;
+            Console.WriteLine(cost.ToString("C",
+                              new System.Globalization.CultureInfo("en-US")));
+            // Displays $1,234.56
+            Console.WriteLine("Displaying a DateTime with different format strings: ");
+            DateTime d = new DateTime(2013, 4, 22);
+            CultureInfo provider = new CultureInfo("en-US");
+            Console.WriteLine("Format d: " + d.ToString("d", provider)); // Displays 4/22/2013
+            Console.WriteLine("Format D: " + d.ToString("D", provider)); // Displays Monday, April 22, 2013
+            Console.WriteLine("Format M: " + d.ToString("M", provider)); // Displays April 22
+
         }
     }
 }
