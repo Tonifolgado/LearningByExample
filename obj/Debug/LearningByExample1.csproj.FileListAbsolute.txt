@@ -12,3 +12,8 @@ C:\MiCode\LearningByExampleLocal\obj\Debug\LearningByExample1.csprojAssemblyRefe
 C:\MiCode\LearningByExampleLocal\obj\Debug\LearningByExample1.csproj.CoreCompileInputs.cache
 C:\MiCode\LearningByExampleLocal\obj\Debug\LearningByExample1.exe
 C:\MiCode\LearningByExampleLocal\obj\Debug\LearningByExample1.pdb
+C:\MiCode\LearningByExampleLocal\bin\Debug\EntityFramework.dll
+C:\MiCode\LearningByExampleLocal\bin\Debug\EntityFramework.SqlServer.dll
+C:\MiCode\LearningByExampleLocal\bin\Debug\EntityFramework.xml
+C:\MiCode\LearningByExampleLocal\bin\Debug\EntityFramework.SqlServer.xml
+C:\MiCode\LearningByExampleLocal\obj\Debug\LearningByExample1.csproj.CopyComplete

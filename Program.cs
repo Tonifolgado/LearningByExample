@@ -11,6 +11,7 @@ namespace LearningByExample1
             EventsCallbacks ecb = new EventsCallbacks();
             ExceptionHandling exh = new ExceptionHandling();
             StringManagement strm = new StringManagement();
+            Conversion cnv = new Conversion();
 
             /* PROGRAM FLOW */
             //flw.complexIFstatement('e');
@@ -92,14 +93,15 @@ namespace LearningByExample1
             // Displays 'John Doe' due to the overriding of ToString with default FL format
             // use ToString to display first name and last name in format LSF
             Console.WriteLine(p.ToString("LSF"));
-
-
+                       
             //strm.createLotOfStrings();
             //strm.usingStringBuilder();
             //strm.StringWriterAsOutputForXMLwriter();
             //strm.usingStrings();
             //strm.ChangeStringWithRegex();
-            strm.formattingStrings();
+            //strm.formattingStrings();
+
+            cnv.differentConversions();
 
 
             Console.ReadLine();

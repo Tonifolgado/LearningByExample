@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -149,8 +150,34 @@ namespace LearningByExample1
 
     // ********************************
 
+    class Conversion
+    {
+        static string value = "1";
+        static string curvalue = "€19,95";
+        static int result;
+        private bool success = int.TryParse(value, out result);
+        static CultureInfo english = new CultureInfo("En");
+        static CultureInfo dutch = new CultureInfo("Nl");
+
+        public void differentConversions()
+        {
+            if (success)
+            {
+                // value is a valid integer 
+            }
+            else
+                {
+                //value is a not valid integer
+                }
+        
+        decimal numdec = decimal.Parse(curvalue, NumberStyles.Currency, dutch);
+        Console.WriteLine(numdec.ToString(english));
+        }
+
+
+     }
 
 
 
 
-}
+ }
