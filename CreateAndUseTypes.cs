@@ -172,10 +172,23 @@ namespace LearningByExample1
         
         decimal numdec = decimal.Parse(curvalue, NumberStyles.Currency, dutch);
         Console.WriteLine(numdec.ToString(english));
+
+         int i = Convert.ToInt32(null);
+         Console.WriteLine(i); // null is converted to 0
+
+         double d = 23.15;
+         int j = Convert.ToInt32(d);
+         Console.WriteLine(j); // the value is rounded to 23
+        }
+
+        public void parsingDateTime()
+        {
+
+
         }
 
 
-     }
+    }
 
 
 

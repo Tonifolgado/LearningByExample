@@ -89,6 +89,7 @@ namespace LearningByExample1
 
         }
 
+        #region Regex
         public void ChangeStringWithRegex()
         {
             //Changing a string with a regular expression
@@ -100,6 +101,63 @@ namespace LearningByExample1
             foreach (string name in names)
                 Console.WriteLine(Regex.Replace(name, pattern, String.Empty));
         }
+
+        public bool ValidateZipCode(string zipCode)
+        {
+            // Valid zipcodes: 1234AB | 1234 AB | 1001 AB
+
+            if (zipCode.Length < 6) return false;
+
+            string numberPart = zipCode.Substring(0, 4);
+            int number;
+            if (!int.TryParse(numberPart, out number)) return false;
+
+            string characterPart = zipCode.Substring(4);
+
+            if (numberPart.StartsWith("0"))
+            {
+                Console.WriteLine("ZIP code not valid");
+                Console.WriteLine("Valid zipcodes: 1234AB | 1234 AB | 1001 AB");
+                return false;
+            }
+            if (characterPart.Trim().Length < 2)
+            {
+                Console.WriteLine("ZIP code not valid");
+                Console.WriteLine("Valid zipcodes: 1234AB | 1234 AB | 1001 AB");
+                return false;
+            }
+            if (characterPart.Length == 3 && characterPart.Trim().Length != 2)
+            {
+                Console.WriteLine("ZIP code not valid");
+                Console.WriteLine("Valid zipcodes: 1234AB | 1234 AB | 1001 AB");
+                return false;
+            }
+
+            Console.WriteLine("ZIP code OK");
+            return true;
+
+        }
+
+        public bool ValidateZipCodeRegEx(string zipCode)
+        {
+            Match match = Regex.Match(zipCode, @"^[1-9][0-9]{3}\s?[a-zA-Z]{2}$",
+                RegexOptions.IgnoreCase);
+            return match.Success;
+        }
+
+        public void RegexWithMultipleSpaces()
+        {
+            RegexOptions options = RegexOptions.None;
+            Regex regex = new Regex(@"[ ]{2,}", options);
+
+            string input = "1 2 3 4   5";
+            string result = regex.Replace(input, " ");
+
+            Console.WriteLine(result); // Displays 1 2 3 4 5
+        }
+
+        #endregion
+
 
         public void formattingStrings()
         {
