@@ -14,6 +14,7 @@ namespace LearningByExample1
             StringManagement strm = new StringManagement();
             Conversion cnv = new Conversion();
             Encryption cryp = new Encryption();
+            LoggingAndTracing lgtr = new LoggingAndTracing();
 
             /* PROGRAM FLOW */
             //flw.complexIFstatement('e');
@@ -113,8 +114,17 @@ namespace LearningByExample1
             //cryp.HashCodeCalculation();
             //cryp.SecureStringInitialize();
             SecureString ss = new SecureString();
+            //cryp.ConvertToUnsecureString(ss);
 
-            cryp.ConvertToUnsecureString(ss);
+            //lgtr.usingDebug();
+            //lgtr.usingTracesource();
+            //lgtr.TraceListenerConfig();
+            //lgtr.EventLogWriting();
+            //lgtr.EventLogReading();
+            //lgtr.EventLogSubscriptionToChanges();
+            //lgtr.usingStopWatch();
+            //lgtr.PerformanceCounterReading();
+            //lgtr.PerformanceCounterWriting();
 
 
 

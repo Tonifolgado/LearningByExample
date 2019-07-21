@@ -55,11 +55,12 @@
     <Compile Include="Encryption.cs" />
     <Compile Include="EventsCallbacks.cs" />
     <Compile Include="ExceptionHandling.cs" />
+    <Compile Include="LoggingAndTracing.cs" />
     <Compile Include="Multithreading.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgramFlow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReadingWritingStuff.cs" />
+    <Compile Include="IOoperations.cs" />
     <Compile Include="Sets.cs" />
     <Compile Include="StringManagement.cs" />
   </ItemGroup>
