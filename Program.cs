@@ -15,6 +15,7 @@ namespace LearningByExample1
             Conversion cnv = new Conversion();
             Encryption cryp = new Encryption();
             LoggingAndTracing lgtr = new LoggingAndTracing();
+            IOoperations iop = new IOoperations();
 
             /* PROGRAM FLOW */
             //flw.complexIFstatement('e');
@@ -96,7 +97,9 @@ namespace LearningByExample1
             // Displays 'John Doe' due to the overriding of ToString with default FL format
             // use ToString to display first name and last name in format LSF
             //Console.WriteLine(p.ToString("LSF"));
+            //cnv.differentConversions();
 
+            /* STRINGS */
             //strm.createLotOfStrings();
             //strm.usingStringBuilder();
             //strm.StringWriterAsOutputForXMLwriter();
@@ -106,16 +109,14 @@ namespace LearningByExample1
             //strm.ValidateZipCode("08820");
             //strm.ValidateZipCodeRegEx("08820");
             //strm.RegexWithMultipleSpaces();
-
-            //cnv.differentConversions();
-
+            /* ENCRYPTION */
             //cryp.SymmetricEncryption();
             //cryp.AsymmetricEncryption();
             //cryp.HashCodeCalculation();
             //cryp.SecureStringInitialize();
             SecureString ss = new SecureString();
             //cryp.ConvertToUnsecureString(ss);
-
+            /* LOGGING AND TRACING */
             //lgtr.usingDebug();
             //lgtr.usingTracesource();
             //lgtr.TraceListenerConfig();
@@ -125,8 +126,10 @@ namespace LearningByExample1
             //lgtr.usingStopWatch();
             //lgtr.PerformanceCounterReading();
             //lgtr.PerformanceCounterWriting();
-
-
+            /* IO */
+            //iop.driveInformation();
+            //iop.directoryManagement();
+            iop.deleteExistingDir();
 
             Console.ReadLine();
         }
