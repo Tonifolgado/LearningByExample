@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Security;
 
 namespace LearningByExample1
@@ -129,7 +130,15 @@ namespace LearningByExample1
             /* IO */
             //iop.driveInformation();
             //iop.directoryManagement();
-            iop.deleteExistingDir();
+            //iop.deleteExistingDir();
+            // List the subdirectories for Program Files containing the character 'a' with maximum depth of 5
+            DirectoryInfo directoryInfo = new DirectoryInfo(@"C:\Program Files");
+            //iop.ListDirectories(directoryInfo, "*a*", 5, 0);
+            //iop.moveDirectory();
+            iop.listDirectoryFiles();
+
+
+
 
             Console.ReadLine();
         }

@@ -64,6 +64,77 @@ namespace LearningByExample1
 
         }
 
+        public void ListDirectories(DirectoryInfo directoryInfo,
+            string searchPattern, int maxLevel, int currentLevel)
+        {
+            if (currentLevel >= maxLevel)
+            {
+                return;
+            }
+
+            string indent = new string('-', currentLevel);
+
+            try
+            {
+                DirectoryInfo[] subDirectories = directoryInfo.GetDirectories(searchPattern);
+
+                foreach (DirectoryInfo subDirectory in subDirectories)
+                {
+                    Console.WriteLine(indent + subDirectory.Name);
+                    ListDirectories(subDirectory, searchPattern, maxLevel, currentLevel + 1);
+                }
+            }
+            catch (UnauthorizedAccessException)
+            {
+                // You don't have access to this folder. 
+                Console.WriteLine(indent + "Can't access: " + directoryInfo.Name);
+                return;
+            }
+            catch (DirectoryNotFoundException)
+            {
+                // The folder is removed while iterating
+                Console.WriteLine(indent + "Can't find: " + directoryInfo.Name);
+                return;
+            }
+        }
+
+        public void moveDirectory()
+        {
+            //It should be an existing directory
+            try
+            {
+            Directory.Move(@"C:\source", @"c:\destination");
+            DirectoryInfo directoryInfo = new DirectoryInfo(@"C:\Source");
+            directoryInfo.MoveTo(@"C:\destination");
+            }
+            catch (DirectoryNotFoundException)
+            {
+                // The folder is removed while iterating
+                Console.WriteLine("Can't find some expected directory");
+                return; 
+            }
+
+        }
+
+        public void listDirectoryFiles()
+        {
+            Console.WriteLine("Using Directory class: ");
+            foreach (string file in Directory.GetFiles(@"C:\Windows"))
+            {
+                Console.WriteLine(file);
+            }
+            Console.WriteLine("Using DirectoryInfo class: ");
+            DirectoryInfo directoryInfo = new DirectoryInfo(@"C:\Windows");
+            foreach (FileInfo fileInfo in directoryInfo.GetFiles())
+            {
+                Console.WriteLine(fileInfo.FullName);
+            }
+
+        }
+
+
+
+
         #region ReadingFiles
 
         void readFileIntoString(string filepath)
