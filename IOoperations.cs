@@ -86,7 +86,7 @@ namespace LearningByExample1
             }
             catch (UnauthorizedAccessException)
             {
-                // You don't have access to this folder. 
+                // You don't have access to this folder.
                 Console.WriteLine(indent + "Can't access: " + directoryInfo.Name);
                 return;
             }
@@ -111,7 +111,7 @@ namespace LearningByExample1
             {
                 // The folder is removed while iterating
                 Console.WriteLine("Can't find some expected directory");
-                return; 
+                return;
             }
 
         }
@@ -131,6 +131,61 @@ namespace LearningByExample1
             }
 
         }
+
+        public void deleteFile()
+        {
+            string path = @"c:\temp\test.txt";
+            //using File class
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            //using FileInfo class
+            FileInfo fileInfo = new FileInfo(path);
+            if (fileInfo.Exists)
+            {
+                fileInfo.Delete();
+            }
+        }
+
+        public void movingFile()
+        {
+            string path = @"c:\temp\test.txt";
+            string destPath = @"c:\temp\destTest.txt";
+
+            File.CreateText(path).Close();
+            File.Move(path, destPath);
+
+            FileInfo fileInfo = new FileInfo(path);
+            fileInfo.MoveTo(destPath);
+            string path2 = @"c:\temp\test.txt";
+            string destPath2 = @"c:\temp\destTest.txt";
+
+            File.CreateText(path2).Close();
+            File.Copy(path2, destPath2);
+
+            FileInfo fileInfo2 = new FileInfo(path2);
+            fileInfo.CopyTo(destPath2);
+        }
+
+        public void pathCreation()
+        {
+            string folder = @"C:\temp";
+            string fileName = "test.dat";
+            string fullPath = folder + fileName; // Results in C:\temptest.dat
+            Console.WriteLine("Using concatenation: " + fullPath);
+            //Using Combine
+            string fileName2 = "test2.dat";
+            string fullPath2 = Path.Combine(folder, fileName2); // Results in C:\\temp\\test.dat
+            Console.WriteLine("Using Path.Combine: " + fullPath2);
+            //Using Path methods
+            string path = @"C:\temp\subdir\file.txt";
+            Console.WriteLine("Using Path.GetDirectoryName: {0}", Path.GetDirectoryName(path)); // Displays C:\temp\subdir
+            Console.WriteLine("Using Path.GetExtension: {0}", Path.GetExtension(path)); // Displays .txt
+            Console.WriteLine("Using Path.GetFileName: {0}", Path.GetFileName(path)); // Displays file.txt
+            Console.WriteLine("Using Path.GetPathRoot: {0}", Path.GetPathRoot(path)); // Displays C:\
+        }
+
 
 
 

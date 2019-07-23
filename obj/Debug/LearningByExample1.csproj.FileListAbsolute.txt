@@ -17,3 +17,8 @@ C:\MiCode\LearningByExampleLocal\bin\Debug\EntityFramework.SqlServer.dll
 C:\MiCode\LearningByExampleLocal\bin\Debug\EntityFramework.xml
 C:\MiCode\LearningByExampleLocal\bin\Debug\EntityFramework.SqlServer.xml
 C:\MiCode\LearningByExampleLocal\obj\Debug\LearningByExample1.csproj.CopyComplete
+D:\Folgado2018\CodeCompilation\LearningByExampleLocal\bin\Debug\EntityFramework.dll
+D:\Folgado2018\CodeCompilation\LearningByExampleLocal\bin\Debug\EntityFramework.SqlServer.dll
+D:\Folgado2018\CodeCompilation\LearningByExampleLocal\bin\Debug\EntityFramework.xml
+D:\Folgado2018\CodeCompilation\LearningByExampleLocal\bin\Debug\EntityFramework.SqlServer.xml
+D:\Folgado2018\CodeCompilation\LearningByExampleLocal\obj\Debug\LearningByExample1.csproj.CopyComplete

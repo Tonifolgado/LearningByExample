@@ -17,6 +17,7 @@ namespace LearningByExample1
             Encryption cryp = new Encryption();
             LoggingAndTracing lgtr = new LoggingAndTracing();
             IOoperations iop = new IOoperations();
+            StreamManagement str = new StreamManagement();
 
             /* PROGRAM FLOW */
             //flw.complexIFstatement('e');
@@ -135,7 +136,12 @@ namespace LearningByExample1
             DirectoryInfo directoryInfo = new DirectoryInfo(@"C:\Program Files");
             //iop.ListDirectories(directoryInfo, "*a*", 5, 0);
             //iop.moveDirectory();
-            iop.listDirectoryFiles();
+            //iop.listDirectoryFiles();
+            //iop.deleteFile();
+            //iop.movingFile();
+            //iop.pathCreation();
+
+
 
 
 
