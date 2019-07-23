@@ -128,7 +128,7 @@ namespace LearningByExample1
             //lgtr.usingStopWatch();
             //lgtr.PerformanceCounterReading();
             //lgtr.PerformanceCounterWriting();
-            /* IO */
+            /* IO & STREAM MANAGEMENT */
             //iop.driveInformation();
             //iop.directoryManagement();
             //iop.deleteExistingDir();
@@ -140,11 +140,14 @@ namespace LearningByExample1
             //iop.deleteFile();
             //iop.movingFile();
             //iop.pathCreation();
+            //iop.ReadAllText()
+            iop.webRequestExecution();
 
             //str.fileStreamCreation();
             //str.srWriterCreation();
-            str.openFileStream();
-
+            //str.openFileStream();
+            //str.compressingData();
+            //str.usingBufferedStream();
 
 
             Console.ReadLine();

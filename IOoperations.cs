@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -186,8 +187,41 @@ namespace LearningByExample1
             Console.WriteLine("Using Path.GetPathRoot: {0}", Path.GetPathRoot(path)); // Displays C:\
         }
 
+        public string ReadAllText()
+        {
+            string path = @"C:\temp\test.txt";
+            //Se puede usar File.Exists para comprobar previamente si el fichero existe
+            //if (File.Exists(path))
+            //{
+            //    return File.ReadAllText(path);
+            //}
+            //return string.Empty;
 
+            //Para controlar excepciones se puede usar try-catch
+            try
+            {
+                return File.ReadAllText(path);
+            }
+            catch (DirectoryNotFoundException) { }
+            catch (FileNotFoundException) { }
+            return string.Empty;
 
+        }
+
+        public void webRequestExecution()
+        {
+            WebRequest request = WebRequest.Create("http://www.microsoft.com");
+            //call the GetResponse method to execute the request and retrieve the response
+            WebResponse response = request.GetResponse();
+
+            StreamReader responseStream = new StreamReader(response.GetResponseStream());
+            string responseText = responseStream.ReadToEnd();
+
+            Console.WriteLine(responseText); // Displays the HTML of the website
+
+            response.Close();
+
+        }
 
 
         #region ReadingFiles
