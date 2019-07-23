@@ -141,8 +141,9 @@ namespace LearningByExample1
             //iop.movingFile();
             //iop.pathCreation();
 
-
-
+            //str.fileStreamCreation();
+            //str.srWriterCreation();
+            str.openFileStream();
 
 
 
