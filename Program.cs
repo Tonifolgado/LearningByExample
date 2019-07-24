@@ -141,7 +141,11 @@ namespace LearningByExample1
             //iop.movingFile();
             //iop.pathCreation();
             //iop.ReadAllText()
-            iop.webRequestExecution();
+            //iop.webRequestExecution();
+            //iop.createAndWriteAsyncToFile();
+            //iop.readAsyncHttpRequest();
+            //iop.executeMultipleRequests();
+            //iop.executeMultipleRequestsInParallel();
 
             //str.fileStreamCreation();
             //str.srWriterCreation();

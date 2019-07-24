@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -222,8 +223,7 @@ namespace LearningByExample1
             response.Close();
 
         }
-
-
+        
         #region ReadingFiles
 
         void readFileIntoString(string filepath)
@@ -255,6 +255,54 @@ namespace LearningByExample1
         }
 
         #endregion
+
+        #region asyncAndParallel
+        public async Task createAndWriteAsyncToFile()
+        {
+            using (FileStream stream = new FileStream("test.dat", FileMode.Create,
+                FileAccess.Write, FileShare.None, 4096, true))
+            {
+                byte[] data = new byte[100000];
+                new Random().NextBytes(data);
+
+                await stream.WriteAsync(data, 0, data.Length);
+            }
+        }
+
+        public async Task readAsyncHttpRequest()
+        {
+            //GetStringAsync method returns Task<string>, 
+            //so when the process is finished, a string value is available (or an exception).
+            HttpClient client = new HttpClient();
+            string result = await client.GetStringAsync("http://www.microsoft.com");
+            Console.WriteLine(result);
+        }
+
+        public async Task executeMultipleRequests()
+        {
+            HttpClient client = new HttpClient();
+
+            string microsoft = await client.GetStringAsync("http://www.microsoft.com");
+            string msdn = await client.GetStringAsync("http://msdn.microsoft.com");
+            string blogs = await client.GetStringAsync("http://blogs.msdn.com/");
+        }
+
+        public async Task executeMultipleRequestsInParallel()
+        {
+            HttpClient client = new HttpClient();
+
+            Task microsoft = client.GetStringAsync("http://www.microsoft.com");
+            Task msdn = client.GetStringAsync("http://msdn.microsoft.com");
+            Task blogs = client.GetStringAsync("http://blogs.msdn.com/");
+            //Now, all three operations run parallel
+            await Task.WhenAll(microsoft, msdn, blogs);
+        }
+
+
+        #endregion
+
+
+
 
     }
 }
