@@ -198,15 +198,39 @@ namespace LearningByExample1
                     new XmlReaderSettings() { IgnoreWhitespace = true }))
                 {
                     xmlReader.MoveToContent();
-                    xmlReader.ReadStartElement("People");
+                    xmlReader.ReadStartElement("people");
 
-                    string firstName = xmlReader.GetAttribute("firstName");
-                    string lastName = xmlReader.GetAttribute("lastName");
+                    string firstName = xmlReader.GetAttribute("firstname");
+                    string lastName = xmlReader.GetAttribute("lastname");
 
                     Console.WriteLine("Person: {0} {1}", firstName, lastName);
                     xmlReader.ReadStartElement("person");
                 }
             }
+        }
+
+        public void usingXMLwriter()
+        {
+            StringWriter stream = new StringWriter();
+
+            using (XmlWriter writer = XmlWriter.Create(
+                stream,
+                new XmlWriterSettings() { Indent = true }))
+            {
+                writer.WriteStartDocument();
+                writer.WriteStartElement("People");
+                writer.WriteStartElement("Person");
+                writer.WriteAttributeString("firstName", "John");
+                writer.WriteAttributeString("lastName", "Doe");
+                writer.WriteStartElement("ContactDetails");
+                writer.WriteElementString("EmailAddress", "john@unknown.com");
+                //you need to make sure that you write both the start and the end tag of each element
+                //You can choose to add attributes or to add elements that have a string value as their content.
+                writer.WriteEndElement();
+                writer.WriteEndElement();
+                writer.Flush();
+            }
+            Console.WriteLine(stream.ToString());
         }
     }
 }

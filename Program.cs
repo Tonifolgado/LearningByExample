@@ -117,6 +117,9 @@ namespace LearningByExample1
             //strm.ValidateZipCode("08820");
             //strm.ValidateZipCodeRegEx("08820");
             //strm.RegexWithMultipleSpaces();
+            //strm.usingXMLreader();
+            strm.usingXMLwriter();
+
 
             /* ENCRYPTION */
             //cryp.SymmetricEncryption();
@@ -161,7 +164,7 @@ namespace LearningByExample1
             //str.openFileStream();
             //str.compressingData();
             //str.usingBufferedStream();
-            
+
 
 
             Console.ReadLine();
