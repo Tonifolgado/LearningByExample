@@ -18,6 +18,7 @@ namespace LearningByExample1
             LoggingAndTracing lgtr = new LoggingAndTracing();
             IOoperations iop = new IOoperations();
             StreamManagement str = new StreamManagement();
+            Serialization ser = new Serialization();
 
             /* PROGRAM FLOW */
             //flw.complexIFstatement('e');
@@ -124,7 +125,7 @@ namespace LearningByExample1
             //strm.usingLINQtoXML();
             //strm.usingXElement();
             //strm.updatingXML();
-            strm.functionalCreationToUpdateXML();
+            //strm.functionalCreationToUpdateXML();
 
             /* ENCRYPTION */
             //cryp.SymmetricEncryption();
@@ -170,7 +171,7 @@ namespace LearningByExample1
             //str.compressingData();
             //str.usingBufferedStream();
 
-
+            ser.serializeWithXMLserializer();
 
             Console.ReadLine();
         }
