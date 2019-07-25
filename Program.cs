@@ -107,7 +107,7 @@ namespace LearningByExample1
             //Console.WriteLine(p.ToString("LSF"));
             //cnv.differentConversions();
 
-            /* STRINGS */
+            /* STRINGS AND XML */
             //strm.createLotOfStrings();
             //strm.usingStringBuilder();
             //strm.StringWriterAsOutputForXMLwriter();
@@ -118,8 +118,10 @@ namespace LearningByExample1
             //strm.ValidateZipCodeRegEx("08820");
             //strm.RegexWithMultipleSpaces();
             //strm.usingXMLreader();
-            strm.usingXMLwriter();
-
+            //strm.usingXMLwriter();
+            //strm.usingXmlDocument();
+            //strm.xPathQuery();
+            strm.usingLINQtoXML();
 
             /* ENCRYPTION */
             //cryp.SymmetricEncryption();

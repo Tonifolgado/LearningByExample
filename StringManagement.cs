@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
+using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace LearningByExample1
 {
@@ -52,8 +56,8 @@ namespace LearningByExample1
             }
             string xml = stringWriter.ToString();
 
-            //The value of xml is now:
-            //<? xml version =\"1.0\" encoding=\"utf-16\"?>
+            //The value of xmlej is now:
+            //<? xmlej version =\"1.0\" encoding=\"utf-16\"?>
             //         < book >
             //           < price > 19.95 </ price >
             //         </ book >
@@ -175,9 +179,9 @@ namespace LearningByExample1
 
         }
 
-        public void usingXMLreader()
-        {
-            string xml = @"<?xml version=""1.0"" encoding=""utf-8"" ?>
+        #region XMLmanagement
+
+        string xmlej = @"<?xml version=""1.0"" encoding=""utf-8"" ?>
                 <people>
                   <person firstname=""john"" lastname=""doe"">
                     <contactdetails>
@@ -192,7 +196,24 @@ namespace LearningByExample1
                   </person>
                 </people>";
 
-            using (StringReader stringReader = new StringReader(xml))
+        String xml2 = @"<?xml version=""1.0"" encoding=""utf-8"" ?>
+                    <people>
+                      <person firstname=""john"" lastname=""doe"">
+                        <contactdetails>
+                          <emailaddress>john@unknown.com</emailaddress>
+                        </contactdetails>
+                      </person>
+                      <person firstname=""jane"" lastname=""doe"">
+                        <contactdetails>
+                          <emailaddress>jane@unknown.com</emailaddress>
+                          <phonenumber>001122334455</phonenumber>
+                        </contactdetails>
+                      </person>
+                    </people>";
+
+        public void usingXMLreader()
+        {
+            using (StringReader stringReader = new StringReader(xmlej))
             {
                 using (XmlReader xmlReader = XmlReader.Create(stringReader,
                     new XmlReaderSettings() { IgnoreWhitespace = true }))
@@ -232,5 +253,109 @@ namespace LearningByExample1
             }
             Console.WriteLine(stream.ToString());
         }
+
+        public void usingXmlDocument()
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xmlej);
+            XmlNodeList nodes = doc.GetElementsByTagName("Person");
+            // Output the names of the people in the document
+            foreach (XmlNode node in nodes)
+            {
+                string firstName = node.Attributes["firstName"].Value;
+                string lastName = node.Attributes["lastName"].Value;
+                Console.WriteLine("Name: {0} {1}", firstName, lastName);
+            }
+            // Start creating a new node
+            XmlNode newNode = doc.CreateNode(XmlNodeType.Element, "Person", "");
+
+            XmlAttribute firstNameAttribute = doc.CreateAttribute("firstName");
+            firstNameAttribute.Value = "Foo";
+            XmlAttribute lastNameAttribute = doc.CreateAttribute("lastName");
+            lastNameAttribute.Value = "Bar";
+
+            newNode.Attributes.Append(firstNameAttribute);
+            newNode.Attributes.Append(lastNameAttribute);
+
+            doc.DocumentElement.AppendChild(newNode);
+            Console.WriteLine("Modified xmlej...");
+            doc.Save(Console.Out);
+
+            //Displays:
+            //Name: john doe
+            //Name: jane doe
+            //Modified xmlej...
+            //<?xmlej version="1.0" encoding="ibm850"?>
+            //<people>
+            //  <person firstname="john" lastname="doe">
+            //   <contactdetails>
+            //      <emailaddress>john@unknown.com</emailaddress>
+            //    </contactdetails>
+            //  </person>
+            //  <person firstname="jane" lastname="doe">
+            //    <contactdetails>
+            //      <emailaddress>jane@unknown.com</emailaddress>
+            //      <phonenumber>001122334455</phonenumber>
+            //    </contactdetails>
+            //  </person>
+            //  <person firstname="Foo" lastname="Bar" />
+            //</people>
+        }
+
+        public void xPathQuery()
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xmlej);
+            //XPath is a kind of query language for XML documents
+            XPathNavigator nav = doc.CreateNavigator();
+            string query = "//people/person[@firstName='jane']";
+            XPathNodeIterator iterator = nav.Select(query);
+
+            Console.WriteLine(@"Items found: {0}", iterator.Count); // Displays 1
+
+            while (iterator.MoveNext())
+            {
+                string firstName = iterator.Current.GetAttribute("firstName", "");
+                string lastName = iterator.Current.GetAttribute("lastName", "");
+                Console.WriteLine("Name: {0} {1}", firstName, lastName);
+            }
+        }
+
+        public void usingLINQtoXML()
+        {
+            XDocument doc = XDocument.Parse(xml2);
+            //Attribute method returns instances of XAttribute
+            //The XAttribute has a Value property of type string, but it also implements explicit operators
+            //so you can cast it to most of the basic types in C#.
+            IEnumerable<string> personNames = from p in doc.Descendants("person")
+                                              select (string)p.Attribute("firstname")
+                                                 + " " + (string)p.Attribute("lastname");
+            foreach (string s in personNames)
+            {
+                Console.WriteLine(s);
+            }
+
+            // Displays:
+            // John Doe
+            // Jane Doe
+
+            //Using Where and OrderBy in a LINQ to XML query
+            IEnumerable<string> personNames2 = from p in doc.Descendants("person")
+                                              where p.Descendants("phonenumber").Any()
+                                              let name = (string)p.Attribute("firstname")
+                                                          + " " + (string)p.Attribute("lastname")
+                                              orderby name
+                                              select name;
+
+            foreach (string s in personNames2)
+            {
+                Console.WriteLine(s);
+            }
+        }
+
+        #endregion
+
+
+
     }
 }
