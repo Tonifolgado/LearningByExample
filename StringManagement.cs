@@ -353,6 +353,68 @@ namespace LearningByExample1
             }
         }
 
+        public void updatingXML()
+        {
+            XElement root = XElement.Parse(xml2);
+            //Functional construction treats modifying data as a problem of transformation
+            //rather than as a detailed manipulation of data
+            foreach (XElement p in root.Descendants("person"))
+            {
+                string name = (string)p.Attribute("firstname") + (string)p.Attribute("lastname");
+                p.Add(new XAttribute("IsMale", name.Contains("john")));
+                XElement contactDetails = p.Element("contactdetails");
+                if (!contactDetails.Descendants("phonenumber").Any())
+                {
+                    contactDetails.Add(new XElement("phonenumber", "001122334455"));
+                }
+            }
+
+            Console.WriteLine(xml2);
+        }
+
+        public void functionalCreationToUpdateXML()
+        {
+            XElement root = XElement.Parse(xml2);
+
+            XElement newTree = new XElement("people",
+                from p in root.Descendants("person")
+                let name = (string)p.Attribute("firstname") + (string)p.Attribute("lastname")
+                let contactDetails = p.Element("contactdetails")
+                select new XElement("person",
+                    new XAttribute("IsMale", name.Contains("john")),
+                    p.Attributes(),
+                    new XElement("contactdetails",
+                        contactDetails.Element("emailaddress"),
+                        contactDetails.Element("phonenumber")
+                            ?? new XElement("phonenumber", "66778899")
+                    )));
+
+            Console.WriteLine(xml2);
+        }
+
+        public void usingXElement()
+        {
+            //use the class XElement for creating your own XML
+            //use the Add method to construct an XML hierarchy 
+            XElement root = new XElement("Root", new List<XElement>
+            {
+                new XElement("Child1"),
+                new XElement("Child2"),
+                new XElement("Child3")
+            },
+            new XAttribute("MyAttribute", 42));
+            root.Save("test.xml");
+
+            //Outputs:
+            //<Root MyAttribute="42">
+            //    <Child1 /> 
+            //    <Child2 /> 
+            //    <Child3 /> 
+            //</Root>
+
+            Console.WriteLine(root);
+        }
+
         #endregion
 
 

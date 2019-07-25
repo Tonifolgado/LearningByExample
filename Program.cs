@@ -121,7 +121,10 @@ namespace LearningByExample1
             //strm.usingXMLwriter();
             //strm.usingXmlDocument();
             //strm.xPathQuery();
-            strm.usingLINQtoXML();
+            //strm.usingLINQtoXML();
+            //strm.usingXElement();
+            //strm.updatingXML();
+            strm.functionalCreationToUpdateXML();
 
             /* ENCRYPTION */
             //cryp.SymmetricEncryption();

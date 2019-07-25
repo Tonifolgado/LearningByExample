@@ -61,6 +61,7 @@
     <Compile Include="ProgramFlow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IOoperations.cs" />
+    <Compile Include="Serialization.cs" />
     <Compile Include="Sets.cs" />
     <Compile Include="StreamManagement.cs" />
     <Compile Include="StringManagement.cs" />
