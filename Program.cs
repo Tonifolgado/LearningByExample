@@ -148,6 +148,7 @@ namespace LearningByExample1
             //str.openFileStream();
             //str.compressingData();
             //str.usingBufferedStream();
+            
 
 
             Console.ReadLine();
