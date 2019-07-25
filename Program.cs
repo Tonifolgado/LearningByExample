@@ -26,12 +26,14 @@ namespace LearningByExample1
             //flw.basicFor();
             //flw.loopWithMultipleVariables();
             //flw.breakAndContinue();
+
             /* THREADS */
             //mth.TwoThreads();
             //mth.ThreadWithMethodParam();
             //mth.HowToStopThread();
             //mth.UseOfThreadStatic();
             //mth.UsingThreadLocalData();
+
             /* TASKS */
             //mth.usingThreadPool();
             //mth.UsingTask();
@@ -44,6 +46,7 @@ namespace LearningByExample1
             //mth.waitanyMultipleTasks();
             //mth.continuationForCancelledTask();
             //mth.taskTimeout();
+
             /* PLINQ */
             //mth.AsyncyAwait();
             //mth.unorderedParallelQuery();
@@ -51,6 +54,7 @@ namespace LearningByExample1
             //mth.makeParallelSequential();
             //mth.usingForAll();
             //mth.catchingAggregateException();
+
             /* CONCURRENT COLLECTIONS */
             //mth.usingBlockingCollection();
             //mth.BlockingCollectionWithGetConsumingEnum();
@@ -59,11 +63,13 @@ namespace LearningByExample1
             //mth.usingConcurrentStack();
             //mth.usingConcurrentQueue();
             //mth.usingConcurrentDictionary();
+
             /* SYNCHRONIZATION */
             //mth.usingLock();
             //mth.usingInterLocked();
             //mth.usingCancellationToken();
             //mth.usingOperationCanceledException();
+
             /* EXCEPTION HANDLING */
             //exh.catchingFormatException();
             //exh.usingEnvironmentFailfast();
@@ -111,6 +117,7 @@ namespace LearningByExample1
             //strm.ValidateZipCode("08820");
             //strm.ValidateZipCodeRegEx("08820");
             //strm.RegexWithMultipleSpaces();
+
             /* ENCRYPTION */
             //cryp.SymmetricEncryption();
             //cryp.AsymmetricEncryption();
@@ -118,6 +125,7 @@ namespace LearningByExample1
             //cryp.SecureStringInitialize();
             SecureString ss = new SecureString();
             //cryp.ConvertToUnsecureString(ss);
+
             /* LOGGING AND TRACING */
             //lgtr.usingDebug();
             //lgtr.usingTracesource();
@@ -128,6 +136,7 @@ namespace LearningByExample1
             //lgtr.usingStopWatch();
             //lgtr.PerformanceCounterReading();
             //lgtr.PerformanceCounterWriting();
+
             /* IO & STREAM MANAGEMENT */
             //iop.driveInformation();
             //iop.directoryManagement();
@@ -141,7 +150,11 @@ namespace LearningByExample1
             //iop.movingFile();
             //iop.pathCreation();
             //iop.ReadAllText()
-            iop.webRequestExecution();
+            //iop.webRequestExecution();
+            //iop.createAndWriteAsyncToFile();
+            //iop.readAsyncHttpRequest();
+            //iop.executeMultipleRequests();
+            //iop.executeMultipleRequestsInParallel();
 
             //str.fileStreamCreation();
             //str.srWriterCreation();
