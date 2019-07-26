@@ -171,7 +171,9 @@ namespace LearningByExample1
             //str.compressingData();
             //str.usingBufferedStream();
 
-            ser.serializeWithXMLserializer();
+            //ser.serializeWithXMLserializer();
+            //ser.serializeDerivedClass();
+            ser.binarySerialization();
 
             Console.ReadLine();
         }
