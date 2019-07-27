@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization.Json;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -103,6 +105,69 @@ namespace LearningByExample1
         public int ID { get; set; }
         public decimal Price { get; set; }
         public string Description { get; set; }
+    }
+
+    [Serializable]
+    public class PersonComplex : ISerializable
+    {
+        //If you have a sensitive class, you should implement the ISerializable interface
+        //to have control over which values are serialized
+        //You could choose to not serialize sensitive data 
+        //or possibly encrypt prior to serialization
+        public int Id { get; set; }
+        public string Name { get; set; }
+        private bool isDirty = false;
+
+        public PersonComplex() { }
+
+        //The other important step is adding a special protected constructor 
+        //that takes a SerializationInfo and StreamingContext
+        //This constructor is called during deserialization
+        //and you use it to retrieve the values and initialize your object.
+        protected PersonComplex(SerializationInfo info, StreamingContext context)
+        {
+            Id = info.GetInt32("Value1");
+            Name = info.GetString("Value2");
+            isDirty = info.GetBoolean("Value3");
+        }
+
+        [System.Security.Permissions.SecurityPermission(SecurityAction.Demand,
+                                                        SerializationFormatter = true)]
+        //GetObjectData method is called when your object is serialized
+        //It should add the values that you want to serialize as key/value pairs
+        //to the SerializationInfo object that’s passed to the method
+        //you should mark this method with a SecurityPermission attribute 
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("Value1", Id);
+            info.AddValue("Value2", Name);
+            info.AddValue("Value3", isDirty);
+        }
+    }
+
+    //You have now seen XML and binary serialization
+    //Another type of serialization is used when you use WCF
+    //types used in WCF are serialized so they can be sent to other applications
+    //The Data Contract Serializer is used by WCF to serialize your objects to XML or JSON
+    [DataContract]
+    public class PersonDataContract
+    {
+        [DataMember]
+        public int Id { get; set; }
+
+        [DataMember]
+        public string Name { get; set; }
+
+        private bool isDirty = false;
+    }
+
+    [DataContract]
+    public class Person3
+    {
+        [DataMember]
+        public int Id { get; set; }
+        [DataMember]
+        public string Name { get; set; }
     }
 
 
@@ -208,6 +273,54 @@ namespace LearningByExample1
                 Persono dp = (Persono)formatter.Deserialize(stream);
                 Console.WriteLine(dp.ToString());
             }
+        }
+
+        public void usingDataContractSerializer()
+        {
+            PersonDataContract p = new PersonDataContract
+            {
+                Id = 1,
+                Name = "John Doe"
+            };
+            //You need to specify a Stream object that has the input or output
+            //when serializing or deserializing an object
+            using (Stream stream = new FileStream("data.xml", FileMode.Create))
+            {
+                DataContractSerializer ser = new DataContractSerializer(typeof(PersonDataContract));
+                ser.WriteObject(stream, p);
+                Console.WriteLine(stream);
+            }
+
+            using (Stream stream = new FileStream("data.xml", FileMode.Open))
+            {
+                DataContractSerializer ser = new DataContractSerializer(typeof(PersonDataContract));
+                PersonDataContract result = (PersonDataContract)ser.ReadObject(stream);
+                Console.WriteLine(result.ToString());
+            }
+
+        }
+
+        public void usingDataContractJsonSerializer()
+        {
+            Person3 p = new Person3
+            {
+                Id = 1,
+                Name = "John Doe"
+            };
+
+            using (MemoryStream stream = new MemoryStream())
+            {
+                DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(Person3));
+                ser.WriteObject(stream, p);
+
+                stream.Position = 0;
+                StreamReader streamReader = new StreamReader(stream);
+                Console.WriteLine(streamReader.ReadToEnd()); // Displays {"Id":1,"Name":"John Doe"}
+
+                stream.Position = 0;
+                Person3 result = (Person3)ser.ReadObject(stream);
+            }
+
         }
     }
 }

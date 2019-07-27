@@ -173,7 +173,9 @@ namespace LearningByExample1
 
             //ser.serializeWithXMLserializer();
             //ser.serializeDerivedClass();
-            ser.binarySerialization();
+            //ser.binarySerialization();
+            //ser.usingDataContractSerializer();
+            ser.usingDataContractJsonSerializer();
 
             Console.ReadLine();
         }
