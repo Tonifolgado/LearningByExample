@@ -10,6 +10,7 @@ namespace LearningByExample1
         {
             Multithreading mth = new Multithreading();
             ProgramFlow flw = new ProgramFlow();
+            Collections clt = new Collections();
             EventsCallbacks ecb = new EventsCallbacks();
             ExceptionHandling exh = new ExceptionHandling();
             StringManagement strm = new StringManagement();
@@ -27,6 +28,15 @@ namespace LearningByExample1
             //flw.basicFor();
             //flw.loopWithMultipleVariables();
             //flw.breakAndContinue();
+
+            /* COLLECTIONS */
+            //clt.Arrays();
+            //clt.twodimensionalArray();
+            //clt.listOfStrings();
+            //clt.Dictionaries();
+            //clt.UseHashSet();
+            //clt.Queues();
+            clt.Stacks();
 
             /* THREADS */
             //mth.TwoThreads();
@@ -173,7 +183,9 @@ namespace LearningByExample1
 
             //ser.serializeWithXMLserializer();
             //ser.serializeDerivedClass();
-            ser.binarySerialization();
+            //ser.binarySerialization();
+            //ser.usingDataContractSerializer();
+            //ser.usingDataContractJsonSerializer();
 
             Console.ReadLine();
         }
