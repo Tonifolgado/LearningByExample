@@ -26,10 +26,13 @@ namespace LearningByExample1
             //flw.CheckWithSwitch('y');
             //flw.switchWithGoto();
             //flw.basicFor();
+            //flw.anotherBasicFor();
             //flw.loopWithMultipleVariables();
             //flw.breakAndContinue();
             //flw.ifStatements();
-            flw.beyondBasicIfStatements();
+            //flw.beyondBasicIfStatements();
+            //flw.multipleConditionswithSwitch();
+            flw.lotteryProgram();
 
             /* COLLECTIONS */
             //clt.Arrays();
