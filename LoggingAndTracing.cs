@@ -18,7 +18,7 @@ namespace LearningByExample1
             Debug.WriteLine("Starting application");
             Debug.Indent();
             int i = 1 + 2;
-            //If the Debug.Assert statement fails, you get a message box showing the current stack trace 
+            //If the Debug.Assert statement fails, you get a message box showing the current stack trace
             //This message box asks you to retry, abort, or ignore the assertion failure
             Debug.Assert(i == 3);
             Debug.WriteLineIf(i > 0, "i is greater than 0");
@@ -51,7 +51,7 @@ namespace LearningByExample1
 
             TraceSource traceSource = new TraceSource("myTraceSource", SourceLevels.All);
 
-            //If you don’t want the DefaultTraceListener to be active, 
+            //If you don’t want the DefaultTraceListener to be active,
             //you need to clear the current listeners collection
             traceSource.Listeners.Clear();
             //You can add as many listeners as you want
@@ -110,7 +110,7 @@ namespace LearningByExample1
 
         public void usingStopWatch()
         {
-            //StopWatch class has a Start, Stop, and Reset method. 
+            //StopWatch class has a Start, Stop, and Reset method.
             //You can get the elapsed time in milliseconds, in ticks, or formatted as here
             Stopwatch sw = new Stopwatch();
             sw.Start();

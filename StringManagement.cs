@@ -395,7 +395,7 @@ namespace LearningByExample1
         public void usingXElement()
         {
             //use the class XElement for creating your own XML
-            //use the Add method to construct an XML hierarchy 
+            //use the Add method to construct an XML hierarchy
             XElement root = new XElement("Root", new List<XElement>
             {
                 new XElement("Child1"),
@@ -407,17 +407,15 @@ namespace LearningByExample1
 
             //Outputs:
             //<Root MyAttribute="42">
-            //    <Child1 /> 
-            //    <Child2 /> 
-            //    <Child3 /> 
+            //    <Child1 />
+            //    <Child2 />
+            //    <Child3 />
             //</Root>
 
             Console.WriteLine(root);
         }
 
         #endregion
-
-
 
     }
 }

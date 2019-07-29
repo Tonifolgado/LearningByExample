@@ -28,6 +28,8 @@ namespace LearningByExample1
             //flw.basicFor();
             //flw.loopWithMultipleVariables();
             //flw.breakAndContinue();
+            //flw.ifStatements();
+            flw.beyondBasicIfStatements();
 
             /* COLLECTIONS */
             //clt.Arrays();
@@ -36,7 +38,7 @@ namespace LearningByExample1
             //clt.Dictionaries();
             //clt.UseHashSet();
             //clt.Queues();
-            clt.Stacks();
+            //clt.Stacks();
 
             /* THREADS */
             //mth.TwoThreads();
