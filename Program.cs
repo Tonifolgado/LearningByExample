@@ -20,6 +20,7 @@ namespace LearningByExample1
             IOoperations iop = new IOoperations();
             StreamManagement str = new StreamManagement();
             Serialization ser = new Serialization();
+            CreateAndUseTypes typ = new CreateAndUseTypes(25);
 
             /* PROGRAM FLOW */
             //flw.complexIFstatement('e');
@@ -35,8 +36,8 @@ namespace LearningByExample1
             //flw.lotteryProgram();
             //flw.WhileExample();
             //flw.simpleDoWhile();
-            flw.workingWithLoops();
-
+            //flw.workingWithLoops();
+                       
 
             /* COLLECTIONS */
             //clt.Arrays();
@@ -196,6 +197,9 @@ namespace LearningByExample1
             //ser.binarySerialization();
             //ser.usingDataContractSerializer();
             //ser.usingDataContractJsonSerializer();
+
+            //typ.valueTypesAndAlias();
+            typ.usingValueTypes();
 
             Console.ReadLine();
         }

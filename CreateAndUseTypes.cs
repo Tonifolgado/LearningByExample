@@ -27,8 +27,130 @@ namespace LearningByExample1
         }
 
         // Rest of the class
-     
-    }
+        public void valueTypesAndAlias()
+        {
+            // create a variable to hold a value type using the alias form
+            // but don't assign a variable
+            int myInt;
+            int myNewInt = new int();
+
+            // create a variable to hold a .NET value type
+            // this type is the .NET version of the alias form int
+            // note the use of the keyword new, we are creating an object from 
+            // the System.Int32 class
+            System.Int32 myInt32 = new System.Int32();
+
+            // you will need to comment out this first Console.WriteLine statement
+            // as Visual Studio will generate an error about using an unassigned
+            // variable.  This is to prevent using a value that was stored in the
+            // memory location prior to the creation of this variable
+            //Console.WriteLine(myInt);
+
+            // print out the default value assigned to an int variable
+            // that had no value assigned previously
+            Console.WriteLine(myNewInt);
+
+            // this statement will work fine and will print out the default value for
+            // this type, which in this case is 0
+            Console.WriteLine(myInt32);
+
+            // assigning one value type to another
+            int secondInt;
+            // myInt will be assigned the value of 2
+            myInt = 2;
+            // secondInt will contain the value 2 after this statement executes
+            secondInt = myInt;
+            // output the value of the variables
+            Console.WriteLine(myInt);
+            Console.WriteLine(secondInt);
+            Console.WriteLine();
+
+        }
+
+        public void usingValueTypes()
+        {
+            // declare some numeric data types
+            int myInt;
+            double myDouble;
+            byte myByte;
+            char myChar;
+            decimal myDecimal;
+            float myFloat;
+            long myLong;
+            short myShort;
+            bool myBool;
+
+            // assign values to these types and then
+            // print them out to the console window
+            // also use the sizeOf operator to determine
+            // the number of bytes taken up be each type
+
+            myInt = 5000;
+            Console.WriteLine("Integer");
+            Console.WriteLine(myInt);
+            Console.WriteLine("Tipo: " + myInt.GetType());
+            Console.WriteLine("Tamaño: " + sizeof(int));
+            Console.WriteLine();
+
+            myDouble = 5000.0;
+            Console.WriteLine("Double");
+            Console.WriteLine(myDouble);
+            Console.WriteLine("Tipo: " + myDouble.GetType());
+            Console.WriteLine("Tamaño: " + sizeof(double));
+            Console.WriteLine();
+
+            myByte = 254;
+            Console.WriteLine("Byte");
+            Console.WriteLine(myByte);
+            Console.WriteLine("Tipo: " + myByte.GetType());
+            Console.WriteLine("Tamaño: " + sizeof(byte));
+            Console.WriteLine();
+
+            myChar = 'r';
+            Console.WriteLine("Char");
+            Console.WriteLine(myChar);
+            Console.WriteLine("Tipo: " + myChar.GetType());
+            Console.WriteLine("Tamaño: " + sizeof(byte));
+            Console.WriteLine();
+
+            myDecimal = 20987.89756M;
+            Console.WriteLine("Decimal");
+            Console.WriteLine(myDecimal);
+            Console.WriteLine("Tipo: " + myDecimal.GetType());
+            Console.WriteLine("Tamaño: " + sizeof(byte));
+            Console.WriteLine();
+
+            myFloat = 254.09F;
+            Console.WriteLine("Float");
+            Console.WriteLine(myFloat);
+            Console.WriteLine("Tipo: " + myFloat.GetType());
+            Console.WriteLine("Tamaño: "+ sizeof(byte));
+            Console.WriteLine();
+
+            myLong = 2544567538754;
+            Console.WriteLine("Long");
+            Console.WriteLine(myLong);
+            Console.WriteLine("Tipo: " + myLong.GetType());
+            Console.WriteLine("Tamaño: " + sizeof(byte));
+            Console.WriteLine();
+
+            myShort = 3276;
+            Console.WriteLine("Short");
+            Console.WriteLine(myShort);
+            Console.WriteLine("Tipo: " + myShort.GetType());
+            Console.WriteLine("Tamaño: " + sizeof(byte));
+            Console.WriteLine();
+
+            myBool = true;
+            Console.WriteLine("Boolean");
+            Console.WriteLine(myBool);
+            Console.WriteLine("Tipo: " + myBool.GetType());
+            Console.WriteLine("Tamaño: " + sizeof(byte));
+            Console.WriteLine();
+
+        }
+
+    }    
 
     public class FieldvsProperty
     {
