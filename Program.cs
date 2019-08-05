@@ -32,7 +32,11 @@ namespace LearningByExample1
             //flw.ifStatements();
             //flw.beyondBasicIfStatements();
             //flw.multipleConditionswithSwitch();
-            flw.lotteryProgram();
+            //flw.lotteryProgram();
+            //flw.WhileExample();
+            //flw.simpleDoWhile();
+            flw.workingWithLoops();
+
 
             /* COLLECTIONS */
             //clt.Arrays();
@@ -42,6 +46,7 @@ namespace LearningByExample1
             //clt.UseHashSet();
             //clt.Queues();
             //clt.Stacks();
+            //clt.foreachLoop();
 
             /* THREADS */
             //mth.TwoThreads();
