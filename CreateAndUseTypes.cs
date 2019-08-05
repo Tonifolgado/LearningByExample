@@ -150,7 +150,29 @@ namespace LearningByExample1
 
         }
 
-    }    
+        public void usingEnums()
+        {
+            string name = Enum.GetName(typeof(Months), 8);
+            Console.WriteLine("The 8th month in the enum is " + name);
+
+            Console.WriteLine("The underlying values of the Months enum:");
+            foreach (int values in Enum.GetValues(typeof(Months)))
+            {
+                Console.WriteLine(values);
+            }
+        }
+
+
+    }
+
+    enum Months
+    {
+        Jan = 1, Feb, Mar, Apr, May, Jun, Jul, Aug, Sept,
+        Oct, Nov, Dec
+    };
+
+
+
 
     public class FieldvsProperty
     {
@@ -270,6 +292,73 @@ namespace LearningByExample1
         }
     }
 
+    public struct Book
+    {
+        public string title;
+        public string category;
+        public string author;
+        public int numPages;
+        public int currentPage;
+        public double ISBN;
+        public string coverStyle;
+
+        public Book(string title, string category, string author, int numPages, int
+           currentPage, double isbn, string cover)
+        {
+            this.title = title;
+            this.category = category;
+            this.author = author;
+            this.numPages = numPages;
+            this.currentPage = currentPage;
+            this.ISBN = isbn;
+            this.coverStyle = cover;
+        }
+
+        public void nextPage()
+        {
+            if (currentPage != numPages)
+            {
+                currentPage++;
+                Console.WriteLine("Current page is now: " + this.currentPage);
+            }
+            else
+            {
+                Console.WriteLine("At end of book.");
+            }
+        }
+
+        public void prevPage()
+        {
+            if (currentPage != 1)
+            {
+                currentPage--;
+                Console.WriteLine("Current page is now: " + this.currentPage);
+            }
+            else
+            {
+                Console.WriteLine("At the beginning of the book.");
+            }
+        }
+
+        public void manageBooks()
+        {
+            Book myBook = new Book("MCSD Certification Toolkit (Exam 70-483)",
+               "Certification", "Covaci, Tiberiu", 648, 1, 81118612095, "Soft Cover");
+
+            Console.WriteLine(myBook.title);
+            Console.WriteLine(myBook.category);
+            Console.WriteLine(myBook.author);
+            Console.WriteLine(myBook.numPages);
+            Console.WriteLine(myBook.currentPage);
+            Console.WriteLine(myBook.ISBN);
+            Console.WriteLine(myBook.coverStyle);
+
+            myBook.nextPage();
+            myBook.prevPage();
+        }
+
+    }
+
     // ********************************
 
     class Conversion
@@ -311,6 +400,8 @@ namespace LearningByExample1
 
 
     }
+
+
 
 
 

@@ -199,7 +199,10 @@ namespace LearningByExample1
             //ser.usingDataContractJsonSerializer();
 
             //typ.valueTypesAndAlias();
-            typ.usingValueTypes();
+            //typ.usingValueTypes();
+            Book bk = new Book();
+            //bk.manageBooks();
+            typ.usingEnums();
 
             Console.ReadLine();
         }
