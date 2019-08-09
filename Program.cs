@@ -203,8 +203,8 @@ namespace LearningByExample1
             Book bk = new Book();
             //bk.manageBooks();
             //typ.usingEnums();
-            typ.manageStudents();
-
+            //typ.manageStudents();
+            typ.passingValueTypesToMethods();
 
 
             Console.ReadLine();
