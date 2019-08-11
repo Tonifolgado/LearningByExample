@@ -8,7 +8,6 @@ D:\Folgado2018\CodeCompilation\LearningByExampleLocal\obj\Debug\LearningByExampl
 C:\MiCode\LearningByExampleLocal\bin\Debug\LearningByExample1.exe.config
 C:\MiCode\LearningByExampleLocal\bin\Debug\LearningByExample1.exe
 C:\MiCode\LearningByExampleLocal\bin\Debug\LearningByExample1.pdb
-C:\MiCode\LearningByExampleLocal\obj\Debug\LearningByExample1.csprojAssemblyReference.cache
 C:\MiCode\LearningByExampleLocal\obj\Debug\LearningByExample1.csproj.CoreCompileInputs.cache
 C:\MiCode\LearningByExampleLocal\obj\Debug\LearningByExample1.exe
 C:\MiCode\LearningByExampleLocal\obj\Debug\LearningByExample1.pdb

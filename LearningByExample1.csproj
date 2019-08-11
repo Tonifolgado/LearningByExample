@@ -57,6 +57,7 @@
     <Compile Include="Encryption.cs" />
     <Compile Include="EventsCallbacks.cs" />
     <Compile Include="ExceptionHandling.cs" />
+    <Compile Include="Generics.cs" />
     <Compile Include="LoggingAndTracing.cs" />
     <Compile Include="Multithreading.cs" />
     <Compile Include="Program.cs" />

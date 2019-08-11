@@ -21,6 +21,7 @@ namespace LearningByExample1
             StreamManagement str = new StreamManagement();
             Serialization ser = new Serialization();
             CreateAndUseTypes typ = new CreateAndUseTypes(25);
+            Generics gnr = new Generics();
 
             /* PROGRAM FLOW */
             //flw.complexIFstatement('e');
@@ -204,7 +205,11 @@ namespace LearningByExample1
             //bk.manageBooks();
             //typ.usingEnums();
             //typ.manageStudents();
-            typ.passingValueTypesToMethods();
+            //typ.passingValueTypesToMethods();
+            Student std = new Student("Pere","Puig");
+            //std.displayDetails();
+
+            gnr.usingGenericMethod();
 
 
             Console.ReadLine();
