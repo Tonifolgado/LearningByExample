@@ -164,9 +164,9 @@ namespace LearningByExample1
 
         public void manageStudents()
         {
-            Student firstStudent = new Student();
+            Student firstStudent = new Student("Antonio", "Alvarez");
             Student.StudentCount++;
-            Student secondStudent = new Student();
+            Student secondStudent = new Student("Pedro", "Jimenez");
             Student.StudentCount++;
 
             firstStudent.firstName = "John";
@@ -185,9 +185,69 @@ namespace LearningByExample1
 
         }
 
-    }
+        public void passingValueTypesToMethods()
+        {
+            int num1 = 2;
+            int num2 = 3;
+            int result;
 
-    enum Months
+            Student firstStudent = new Student("Luis", "Eduardo");
+            firstStudent.firstName = "John";
+            firstStudent.lastName = "Smith";
+            firstStudent.grade = "six";
+
+            result = sum(num1, num2);
+            Console.Write("Sum is: " + result);
+            Console.WriteLine();
+
+            changeValues(num1, num2);
+            Console.WriteLine();
+            Console.WriteLine("Back from changeValues()");
+            Console.WriteLine(num1);  // outputs 2
+            Console.WriteLine(num2);  // outputs 3
+
+            Console.WriteLine();
+            Console.WriteLine("First name for firstStudent is " +
+              firstStudent.firstName);
+            changeName(firstStudent);
+            Console.WriteLine();
+            Console.WriteLine("First name for firstStudent is " +
+              firstStudent.firstName);
+
+        }
+
+        static int sum(int value1, int value2)
+        {
+            Console.WriteLine("In method sum()");
+            return value1 + value2;
+        }
+
+        static void changeValues(int value1, int value2)
+        {
+            Console.WriteLine("In changeValues()");
+            Console.WriteLine("value1 is " + value1);  // outputs 2
+            Console.WriteLine("value2 is " + value2);  // outputs 3
+            Console.WriteLine();
+            Console.WriteLine("Changing values");
+
+            value1--;
+            value2 += 5;
+
+            Console.WriteLine();
+            Console.WriteLine("value1 is now " + value1);  // outputs 1
+            Console.WriteLine("value2 is now " + value2);  // outputs 8
+        }
+
+        static void changeName(Student refValue)
+        {
+            Console.WriteLine();
+            Console.WriteLine("In changeName()");
+            refValue.firstName = "George";
+        }
+    }
+    
+
+enum Months
     {
         Jan = 1, Feb, Mar, Apr, May, Jun, Jul, Aug, Sept,
         Oct, Nov, Dec
@@ -316,9 +376,14 @@ namespace LearningByExample1
         //StudentCount is used to keep track of how many Students you have created
         //Because it is static, it is a variable assigned to the class, not to an instance.
         public static int StudentCount;
+        private char middleInitial;
         public string firstName;
         public string lastName;
         public string grade;
+        private int age;
+        private string program;
+        private double gpa;
+
 
         public string concatenateName()
         {
@@ -330,6 +395,73 @@ namespace LearningByExample1
         {
             string name = concatenateName();
             Console.WriteLine(name);
+        }
+
+        public Student(string first, string last)
+        {
+            this.firstName = first;
+            this.lastName = last;
+        }
+
+        public string FirstName
+        {
+            get { return firstName; }
+            set { firstName = value; }
+        }
+
+        public string LastName
+        {
+            get { return lastName; }
+            set { lastName = value; }
+        }
+
+        public char MiddleInitial
+        {
+            get { return middleInitial; }
+            set { middleInitial = value; }
+        }
+
+        public int Age
+        {
+            get { return age; }
+            set
+            {
+                if (value > 6)
+                {
+                    age = value;
+                }
+                else
+                {
+                    Console.WriteLine("Student age must be greater than 6");
+                }
+            }
+        }
+
+        public string Program
+        {
+            get { return program; }
+            set { program = value; }
+        }
+
+        public double GPA
+        {
+            get { return gpa; }
+            set
+            {
+                if (value <= 4.0)
+                {
+                    gpa = value;
+                }
+                else
+                {
+                    Console.WriteLine("GPA cannot be greater than 4.0");
+                }
+            }
+        }
+        public void displayDetails()
+        {
+            Console.WriteLine(this.FirstName + " " + this.MiddleInitial + " " + this.LastName);
+            Console.WriteLine("Has a GPA of " + this.GPA);
         }
 
     }
@@ -442,10 +574,6 @@ namespace LearningByExample1
 
 
     }
-
-
-
-
 
 
  }
