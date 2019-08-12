@@ -37,7 +37,6 @@ namespace LearningByExample1
             //flw.WhileExample();
             //flw.simpleDoWhile();
             //flw.workingWithLoops();
-                       
 
             /* COLLECTIONS */
             //clt.Arrays();
@@ -204,7 +203,6 @@ namespace LearningByExample1
             //bk.manageBooks();
             //typ.usingEnums();
             typ.manageStudents();
-
 
 
             Console.ReadLine();
