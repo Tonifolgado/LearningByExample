@@ -128,6 +128,8 @@ namespace LearningByExample1
             // use ToString to display first name and last name in format LSF
             //Console.WriteLine(p.ToString("LSF"));
             //cnv.differentConversions();
+            cnv.parsingDateTime();
+            cnv.parsingNumbers();
 
             /* STRINGS AND XML */
             //strm.createLotOfStrings();
@@ -205,10 +207,11 @@ namespace LearningByExample1
             //typ.usingEnums();
             //typ.manageStudents();
             //typ.passingValueTypesToMethods();
+
             Student std = new Student("Pere","Puig");
             //std.displayDetails();
 
-            gnr.usingGenericMethod();
+            //gnr.usingGenericMethod();
 
             Console.ReadLine();
         }

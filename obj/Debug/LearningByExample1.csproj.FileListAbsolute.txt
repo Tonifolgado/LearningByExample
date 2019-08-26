@@ -21,3 +21,4 @@ D:\Folgado2018\CodeCompilation\LearningByExampleLocal\bin\Debug\EntityFramework.
 D:\Folgado2018\CodeCompilation\LearningByExampleLocal\bin\Debug\EntityFramework.xml
 D:\Folgado2018\CodeCompilation\LearningByExampleLocal\bin\Debug\EntityFramework.SqlServer.xml
 D:\Folgado2018\CodeCompilation\LearningByExampleLocal\obj\Debug\LearningByExample1.csproj.CopyComplete
+C:\MiCode\LearningByExampleLocal\obj\Debug\LearningByExample1.csprojAssemblyReference.cache

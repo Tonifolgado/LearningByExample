@@ -568,7 +568,22 @@ enum Months
 
         public void parsingDateTime()
         {
+            string str1 = DateTime.Parse("3:45 PM May 1, 2014").ToString();
+            Console.WriteLine(str1);
+            string str2 = DateTime.Parse("1 apr 2014 15:45").ToString();
+            Console.WriteLine(str2);
+            string str3 = DateTime.Parse("20:45 4/1/14").ToString();
+            Console.WriteLine(str3);
+            string str4 = DateTime.Parse("6:45pm 4.1.14").ToString();
+            Console.WriteLine(str4);
 
+        }
+
+        public void parsingNumbers()
+        {
+            decimal amount = decimal.Parse("123.456,78", NumberStyles.AllowCurrencySymbol |
+                NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint);
+            Console.WriteLine(amount.ToString());
 
         }
 
