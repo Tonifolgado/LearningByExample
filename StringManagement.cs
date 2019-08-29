@@ -93,6 +93,41 @@ namespace LearningByExample1
 
         }
 
+        public void formattingStrings()
+        {
+            Console.WriteLine("Format a number as a currency: ");
+            double cost = 1234.56;
+            Console.WriteLine(cost.ToString("C",
+                              new System.Globalization.CultureInfo("en-US")));
+            // Displays $1,234.56
+            Console.WriteLine("Displaying a DateTime with different format strings: ");
+            DateTime d = new DateTime(2013, 4, 22);
+            CultureInfo provider = new CultureInfo("en-US");
+            Console.WriteLine("Format d: " + d.ToString("d", provider)); // Displays 4/22/2013
+            Console.WriteLine("Format D: " + d.ToString("D", provider)); // Displays Monday, April 22, 2013
+            Console.WriteLine("Format M: " + d.ToString("M", provider)); // Displays April 22
+
+        }
+
+        public string ReverseString(string str)
+        {
+            // Make sure we have a reversible string.
+            if (str == null || str.Length <= 1)
+            {
+                return str;
+            }
+            // Create a StringBuilder object with the required capacity.
+            StringBuilder revStr = new StringBuilder(str.Length);
+            // Loop backward through the source string one character at a time and
+            // append each character to StringBuilder.
+            for (int count = str.Length - 1; count >-1; count--)
+            {
+                revStr.Append(str[count]);
+            }
+            // Return the reversed string.
+            return revStr.ToString();
+        }
+
         #region Regex
         public void ChangeStringWithRegex()
         {
@@ -160,24 +195,22 @@ namespace LearningByExample1
             Console.WriteLine(result); // Displays 1 2 3 4 5
         }
 
-        #endregion
-
-
-        public void formattingStrings()
+        public bool ValidateInput(string regex, string input)
         {
-            Console.WriteLine("Format a number as a currency: ");
-            double cost = 1234.56;
-            Console.WriteLine(cost.ToString("C",
-                              new System.Globalization.CultureInfo("en-US")));
-            // Displays $1,234.56
-            Console.WriteLine("Displaying a DateTime with different format strings: ");
-            DateTime d = new DateTime(2013, 4, 22);
-            CultureInfo provider = new CultureInfo("en-US");
-            Console.WriteLine("Format d: " + d.ToString("d", provider)); // Displays 4/22/2013
-            Console.WriteLine("Format D: " + d.ToString("D", provider)); // Displays Monday, April 22, 2013
-            Console.WriteLine("Format M: " + d.ToString("M", provider)); // Displays April 22
-
+            // Create a new Regex based on the specified regular expression.
+            Regex r = new Regex(regex);
+            // Test if the specified input matches the regular expression.
+            return r.IsMatch(input);
         }
+        // Alternative version of the ValidateInput method that does not create
+        // Regex instances.
+        public bool ValidateInput2(string regex, string input)
+        {
+            // Test if the specified input matches the regular expression.
+            return Regex.IsMatch(input, regex);
+        }
+
+        #endregion
 
         #region XMLmanagement
 

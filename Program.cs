@@ -22,6 +22,7 @@ namespace LearningByExample1
             Serialization ser = new Serialization();
             CreateAndUseTypes typ = new CreateAndUseTypes(25);
             Generics gnr = new Generics();
+            DataManagement dtm = new DataManagement();
 
             /* PROGRAM FLOW */
             //flw.complexIFstatement('e');
@@ -38,6 +39,7 @@ namespace LearningByExample1
             //flw.WhileExample();
             //flw.simpleDoWhile();
             //flw.workingWithLoops();
+            //flw.manipulateConsoleAppearance();
 
             /* COLLECTIONS */
             //clt.Arrays();
@@ -48,6 +50,8 @@ namespace LearningByExample1
             //clt.Queues();
             //clt.Stacks();
             //clt.foreachLoop();
+            //clt.sortArrayAndLists();
+            //clt.copyColletionToArray();
 
             /* THREADS */
             //mth.TwoThreads();
@@ -101,6 +105,7 @@ namespace LearningByExample1
             //ecb.UseDelegate();
             //ecb.multicastDelegate();
             //ecb.usingActionDelegate();
+            //ecb.handleEventWithAnonymousFunction();
 
             #region EventHandling
 
@@ -128,8 +133,9 @@ namespace LearningByExample1
             // use ToString to display first name and last name in format LSF
             //Console.WriteLine(p.ToString("LSF"));
             //cnv.differentConversions();
-            cnv.parsingDateTime();
-            cnv.parsingNumbers();
+            //cnv.parsingDateTime();
+            //cnv.parsingNumbers();
+            //cnv.dateTimeFromStrings();
 
             /* STRINGS AND XML */
             //strm.createLotOfStrings();
@@ -141,6 +147,17 @@ namespace LearningByExample1
             //strm.ValidateZipCode("08820");
             //strm.ValidateZipCodeRegEx("08820");
             //strm.RegexWithMultipleSpaces();
+
+            // Test the input from the command line. The first argument is the
+            // regular expression, and the second is the input.
+            //string regexp = @"^[\w -] +@([\w -] +\.)+[\w -] +$";
+            //string input = @"myname @mydomain.com";
+            //Console.WriteLine("Regular Expression: {0}", regexp);
+            //Console.WriteLine("Input: {0}", input);
+            //Console.WriteLine("Valid = {0}", strm.ValidateInput(regexp, input));
+            //Console.WriteLine("Valid = {0}", strm.ValidateInput2(regexp, input));
+            //Console.WriteLine("\nMain method complete. Press Enter");
+
             //strm.usingXMLreader();
             //strm.usingXMLwriter();
             //strm.usingXmlDocument();
@@ -149,6 +166,8 @@ namespace LearningByExample1
             //strm.usingXElement();
             //strm.updatingXML();
             //strm.functionalCreationToUpdateXML();
+            //Console.WriteLine(strm.ReverseString("Madam Im Adam"));
+            //Console.WriteLine(strm.ReverseString("The quick brown fox jumped over the lazy dog."));            
 
             /* ENCRYPTION */
             //cryp.SymmetricEncryption();
@@ -188,18 +207,43 @@ namespace LearningByExample1
             //iop.executeMultipleRequests();
             //iop.executeMultipleRequestsInParallel();
 
+            /* STREAM MANAGEMENT */
             //str.fileStreamCreation();
             //str.srWriterCreation();
             //str.openFileStream();
             //str.compressingData();
             //str.usingBufferedStream();
+            //str.characterEncoding();
 
+            /* CONVERT Basic Value Types to Byte Arrays */
+            //byte[] b = null;
+            // Convert a bool to a byte array and display.
+            //b = BitConverter.GetBytes(true);
+            //Console.WriteLine(BitConverter.ToString(b));
+            // Convert a byte array to a bool and display.
+            //Console.WriteLine(BitConverter.ToBoolean(b, 0));
+            // Convert an int to a byte array and display.
+            //b = BitConverter.GetBytes(3678);
+            //Console.WriteLine(BitConverter.ToString(b));
+            // Convert a byte array to an int and display.
+            //Console.WriteLine(BitConverter.ToInt32(b, 0));
+            // Convert a decimal to a byte array and display.
+            //b = str.DecimalToByteArray(285998345545.563846696m);
+            //Console.WriteLine(BitConverter.ToString(b));
+            // Convert a byte array to a decimal and display.
+            //Console.WriteLine(str.ByteArrayToDecimal(b));
+            // Wait to continue.
+            //Console.WriteLine("Main method complete. Press Enter");
+
+
+            /* SERIALIZATION */
             //ser.serializeWithXMLserializer();
             //ser.serializeDerivedClass();
             //ser.binarySerialization();
             //ser.usingDataContractSerializer();
             //ser.usingDataContractJsonSerializer();
 
+            /* CREATE AND USE TYPES */
             //typ.valueTypesAndAlias();
             //typ.usingValueTypes();
             Book bk = new Book();
@@ -207,11 +251,20 @@ namespace LearningByExample1
             //typ.usingEnums();
             //typ.manageStudents();
             //typ.passingValueTypesToMethods();
-
             Student std = new Student("Pere","Puig");
             //std.displayDetails();
+            //typ.anonymousType();
+            //typ.usingExpandoObject();
+            //typ.overloadOperator();
+            //typ.conversionOperators();
+            //typ.customIndexer();
 
+            /* GENERICS */
             //gnr.usingGenericMethod();
+            gnr.stronglyTypedCollection();
+
+            /* DATES */
+            //dtm.dateTimeManagement();
 
             Console.ReadLine();
         }

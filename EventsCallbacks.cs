@@ -20,14 +20,20 @@ namespace LearningByExample1
         //as with the delegate syntax
         public event Action OnChange = delegate { };
         public event EventHandler<MyArgs> OnChange2 = delegate { };
+        public static EventHandler MyEvent;
+
 
         #region methodsToUseWithDelegates
         public int Add(int x, int y) { return x + y; }
-        public int Multiply(int x, int y) { return x * y; }
-        
+        public int Multiply(int x, int y) { return x * y; }        
 
         public void MethodOne() { Console.WriteLine("MethodOne"); }
         public void MethodTwo() { Console.WriteLine("MethodTwo"); }
+
+        static void EventHandlerMethod(object sender, EventArgs args)
+        {
+            Console.WriteLine("Named method called");
+        }
 
         public class MyArgs : EventArgs
         {
@@ -38,8 +44,6 @@ namespace LearningByExample1
             }
 
         }
-
-
 
         #endregion
 
@@ -92,6 +96,27 @@ namespace LearningByExample1
         public void Raise2()
         {
             OnChange2(this, new MyArgs(42));
+        }
+
+        public void handleEventWithAnonymousFunction()
+        {
+            // Use a named method to register for the event.
+            MyEvent += new EventHandler(EventHandlerMethod);
+            // Use an anonymous delegate to register for the event.
+            MyEvent += new EventHandler(delegate (object sender, EventArgs eventargs)
+            {
+                Console.WriteLine("Anonymous delegate called");
+            });
+            // Use a lamda expression to register for the event.
+            MyEvent += new EventHandler((sender, eventargs) =>
+            {
+                Console.WriteLine("Lamda expression called");
+            });
+            Console.WriteLine("Raising the event");
+            MyEvent.Invoke(new object(), new EventArgs());
+            Console.WriteLine("\nMain method complete. Press Enter.");
+            Console.ReadLine();
+
         }
 
 

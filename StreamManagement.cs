@@ -102,6 +102,72 @@ namespace LearningByExample1
 
         }
 
+        public void characterEncoding()
+        {
+            // Create a file to hold the output.
+            using (StreamWriter output = new StreamWriter("output.txt"))
+            {
+                // Create and write a string containing the symbol for pi.
+                string srcString = "Area = \u03A0r^2";
+                output.WriteLine("Source Text : " + srcString);
+                // Write the UTF-16 encoded bytes of the source string.
+                byte[] utf16String = Encoding.Unicode.GetBytes(srcString);
+                output.WriteLine("UTF-16 Bytes: {0}",
+                    BitConverter.ToString(utf16String));
+
+                // Convert the UTF-16 encoded source string to UTF-8 and ASCII.
+                byte[] utf8String = Encoding.UTF8.GetBytes(srcString);
+                byte[] asciiString = Encoding.ASCII.GetBytes(srcString);
+                // Write the UTF-8 and ASCII encoded byte arrays.
+                output.WriteLine("UTF-8  Bytes: {0}",
+                    BitConverter.ToString(utf8String));
+                output.WriteLine("ASCII  Bytes: {0}",
+                    BitConverter.ToString(asciiString));
+                // Convert UTF-8 and ASCII encoded bytes back to UTF-16 encoded string and write.
+                output.WriteLine("UTF-8  Text : {0}",
+                    Encoding.UTF8.GetString(utf8String));
+                output.WriteLine("ASCII  Text : {0}",
+                    Encoding.ASCII.GetString(asciiString));
+            }
+            // Wait to continue.
+            Console.WriteLine("\nMain method complete. Press Enter");
+            Console.ReadLine();
+        }
+
+        public byte[] DecimalToByteArray(decimal src)
+        {
+            // Create a byte array from a decimal.
+            // Create a MemoryStream as a buffer to hold the binary data.
+            using (MemoryStream stream = new MemoryStream())
+            {
+                // Create a BinaryWriter to write binary data to the stream.
+                using (BinaryWriter writer = new BinaryWriter(stream))
+                {
+                    // Write the decimal to the BinaryWriter/MemoryStream.
+                    writer.Write(src);
+                    // Return the byte representation of the decimal.
+                    return stream.ToArray();
+                }
+            }
+        }
+
+        public decimal ByteArrayToDecimal(byte[] src)
+        {
+            // Create a decimal from a byte array.
+            // Create a MemoryStream containing the byte array.
+            using (MemoryStream stream = new MemoryStream(src))
+            {
+                // Create a BinaryReader to read the decimal from the stream.
+                using (BinaryReader reader = new BinaryReader(stream))
+                {
+                    // Read and return the decimal from the
+                    // BinaryReader/MemoryStream.
+                    return reader.ReadDecimal();
+                }
+            }
+        }
+
+
 
     }
 }

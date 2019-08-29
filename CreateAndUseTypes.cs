@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -244,8 +245,125 @@ namespace LearningByExample1
             Console.WriteLine("In changeName()");
             refValue.firstName = "George";
         }
+
+        public void anonymousType()
+        {            
+            var joe = new
+            {
+                Name = "Joe Smith",
+                Age = 42,
+                Family = new
+                {
+                    Father = "Pa Smith",
+                    Mother = "Ma Smith",
+                    Brother = "Pete Smith"
+                },
+            };
+            // Access the members of the anonymous type.
+            Console.WriteLine("Name: {0}", joe.Name);
+            Console.WriteLine("Age: {0}", joe.Age);
+            Console.WriteLine("Father: {0}", joe.Family.Father);
+            Console.WriteLine("Mother: {0}", joe.Family.Mother);
+            Console.WriteLine("Brother: {0}", joe.Family.Brother);
+            Console.WriteLine("Main method complete. Press Enter.");
+            Console.ReadLine();
+        }
+
+        public void usingExpandoObject()
+        {
+            // One of the limitations of anonymous types is that
+            // encapsulated properties are read-only
+            // You can achieve a similar effect, but with properties that
+            // can be modified, using the System.Dynamic.ExpandoObject class.
+            dynamic expando = new ExpandoObject();
+            expando.Name = "Joe Smith";
+            expando.Age = 42;
+            expando.Family = new ExpandoObject();
+            expando.Family.Father = "Pa Smith";
+            expando.Family.Mother = "Ma Smith";
+            expando.Family.Brother = "Pete Smith";
+            // Access the members of the dynamic type.
+            Console.WriteLine("Name: {0}", expando.Name);
+            Console.WriteLine("Age: {0}", expando.Age);
+            Console.WriteLine("Father: {0}", expando.Family.Father);
+            Console.WriteLine("Mother: {0}", expando.Family.Mother);
+            Console.WriteLine("Brother: {0}", expando.Family.Brother);
+            // Change a value.
+            expando.Age = 44;
+            // Add a new property.
+            expando.Family.Sister = "Kathy Smith";
+            Console.WriteLine("\nModified Values");
+            Console.WriteLine("Age: {0}", expando.Age);
+            Console.WriteLine("Sister: {0}", expando.Family.Sister);
+            Console.WriteLine("Main method complete. Press Enter.");
+            Console.ReadLine();
+            //important thing to remember about dynamic types is 
+            //the calls you make to them in your code are not checked by the compiler
+        }
+
+        public void overloadOperator()
+        {
+            // Create two word instances.
+            Word word1 = new Word() { Text = "Hello" };
+            Word word2 = new Word() { Text = "World" };
+            // Print out the values.
+            Console.WriteLine("Word1: {0}", word1);
+            Console.WriteLine("Word2: {0}", word2);
+            Console.WriteLine("Added together: {0}", word1 + word2);
+            Console.WriteLine("Added with int: {0}", word1 + 7);
+            Console.WriteLine("\nMain method complete. Press Enter.");
+            Console.ReadLine();
+        }
+
+        public void conversionOperators()
+        {
+            // Create a word instance.
+            Word word1 = new Word() { Text = "Hello" };
+            // Implicitly convert the word to a string.
+            string str1 = word1;
+            // Explicitly convert the word to a string.
+            string str2 = (string)word1;
+            Console.WriteLine("{0} - {1}", str1, str2);
+            // Convert a string to a word.
+            Word word2 = (Word)"Hello";
+            // Convert a word to an int.
+            int count = (int)word2;
+            Console.WriteLine("Length of {0} = {1}", word2.ToString(), count);
+            Console.WriteLine("\nMain method complete. Press Enter.");
+            Console.ReadLine();
+
+        }
+
+        public void customIndexer()
+        {
+            // Create a new weather forecast.
+            WeatherForecast forecast = new WeatherForecast();
+            // Use the indexer to obtain forecast values and write them out.
+            string[] days = { "Monday", "Thursday", "Tuesday", "Saturday" };
+            foreach (string day in days)
+            {
+                WeatherReport report = forecast[day];
+                Console.WriteLine("Day: {0} DayIndex {1}, Temp: {2} Ave {3}", day,
+                    report.DayOfWeek, report.DailyTemp, report.AveTempSoFar);
+            }
+            // Change one of the temperatures.
+            forecast["Tuesday"] = new WeatherReport()
+            {
+                DailyTemp = 34
+            };
+            // Repeat the loop.
+            Console.WriteLine("\nModified results...");
+            foreach (string day in days)
+            {
+                WeatherReport report = forecast[day];
+                Console.WriteLine("Day: {0} DayIndex {1}, Temp: {2} Ave {3}", day,
+                    report.DayOfWeek, report.DailyTemp, report.AveTempSoFar);
+            }
+            Console.WriteLine("\nMain method complete. Press Enter.");
+            Console.ReadLine();
+
+        }
     }
-    
 
 enum Months
     {
@@ -295,7 +413,6 @@ enum Months
         //Example of a property
         private string firstName;
 
-
         public string FirstName
         {
             get { return firstName; }
@@ -342,10 +459,6 @@ enum Months
                             "The '{0}' format string is not supported.", format));
             }
         }
-
-
-
-
 
     }
 
@@ -533,6 +646,94 @@ enum Months
 
     }
 
+    public class Word
+    {
+        public string Text
+        {
+            get;
+            set;
+        }
+        //Overload of the operator + to manage Word intances
+        public static string operator +(Word w1, Word w2)
+        {
+            return w1.Text + " " + w2.Text;
+        }
+        public static Word operator +(Word w, int i)
+        {
+            return new Word() { Text = w.Text + i.ToString() };
+        }
+
+        public static explicit operator Word(string str)
+        {
+            return new Word() { Text = str };
+        }
+        public static implicit operator string(Word w)
+        {
+            return w.Text;
+        }
+        public static explicit operator int(Word w)
+        {
+            return w.Text.Length;
+        }
+
+        public override string ToString()
+        {
+            return Text;
+        }
+    }
+
+    public class WeatherReport
+    {
+        public int DayOfWeek
+        {
+            get;
+            set;
+        }
+        public int DailyTemp
+        {
+            get;
+            set;
+        }
+        public int AveTempSoFar
+        {
+            get;
+            set;
+        }
+    }
+
+    public class WeatherForecast
+    {
+        private int[] temps = { 54, 63, 61, 55, 61, 63, 58 };
+        IList<string> daysOfWeek = new List<string>()
+            {"Monday", "Tuesday", "Wednesday",
+            "Thursday", "Friday", "Saturday", "Sunday"};
+        public WeatherReport this[string dow]
+        {
+            get
+            {
+                // Get the day of the week index.
+                int dayindex = daysOfWeek.IndexOf(dow);
+                return new WeatherReport()
+                {
+                    DayOfWeek = dayindex,
+                    DailyTemp = temps[dayindex],
+                    AveTempSoFar = calculateTempSoFar(dayindex)
+                };
+            }
+            set
+            {
+                temps[daysOfWeek.IndexOf(dow)] = value.DailyTemp;
+            }
+        }
+        private int calculateTempSoFar(int dayofweek)
+        {
+            int[] subset = new int[dayofweek + 1];
+            Array.Copy(temps, 0, subset, 0, dayofweek + 1);
+            return (int)subset.Average();
+        }
+    }
+
+
     // ********************************
 
     class Conversion
@@ -585,6 +786,42 @@ enum Months
                 NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint);
             Console.WriteLine(amount.ToString());
 
+        }
+
+        public void dateTimeFromStrings()
+        {
+            string ds1 = "Sep 2005";
+            string ds2 = "Monday 5 September 2005 14:15:33";
+            string ds3 = "5,9,5";
+            string ds4 = "5/9/2005 14:15:33";
+            string ds5 = "2:15 PM";
+            // 1st September 2005 00:00:00
+            DateTime dt1 = DateTime.Parse(ds1);
+            // 5th September 2005 14:15:33
+            DateTime dt2 = DateTime.Parse(ds2);
+            // 5th September 2005 00:00:00
+            DateTime dt3 = DateTime.Parse(ds3);
+            // 5th September 2005 14:15:33
+            DateTime dt4 = DateTime.Parse(ds4);
+            // Current Date 14:15:00
+            DateTime dt5 = DateTime.Parse(ds5);
+            // Display the converted DateTime objects.
+            Console.WriteLine("String: {0} DateTime: {1}", ds1, dt1);
+            Console.WriteLine("String: {0} DateTime: {1}", ds2, dt2);
+            Console.WriteLine("String: {0} DateTime: {1}", ds3, dt3);
+            Console.WriteLine("String: {0} DateTime: {1}", ds4, dt4);
+            Console.WriteLine("String: {0} DateTime: {1}", ds5, dt5);
+            // Parse only strings containing LongTimePattern.Generates an error
+            //DateTime dt6 = DateTime.ParseExact("2:13:30 PM", "h:mm:ss tt", null);
+            // Parse only strings containing RFC1123Pattern.Generates an error
+            //DateTime dt7 = DateTime.ParseExact("Mon, 05 Sep 2005 14:13:30 GMT", "ddd, dd MMM yyyy HH':'mm':'ss 'GMT'", null);
+            // Parse only strings containing MonthDayPattern.
+            //DateTime dt8 = DateTime.ParseExact("September 05", "MMMM dd", null);
+            // Display the converted DateTime objects.
+            //Console.WriteLine(dt6);
+            //Console.WriteLine(dt7);
+            //Console.WriteLine(dt8);
+            Console.WriteLine("\nMain method complete. Press Enter");
         }
 
 
