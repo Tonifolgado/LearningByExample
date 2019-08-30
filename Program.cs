@@ -242,6 +242,8 @@ namespace LearningByExample1
             //ser.binarySerialization();
             //ser.usingDataContractSerializer();
             //ser.usingDataContractJsonSerializer();
+            //ser.serializeDeserializeExample();
+            ser.JSONserialization();
 
             /* CREATE AND USE TYPES */
             //typ.valueTypesAndAlias();
@@ -261,7 +263,7 @@ namespace LearningByExample1
 
             /* GENERICS */
             //gnr.usingGenericMethod();
-            gnr.stronglyTypedCollection();
+            //gnr.stronglyTypedCollection();
 
             /* DATES */
             //dtm.dateTimeManagement();

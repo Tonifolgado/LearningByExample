@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization.Formatters.Soap;
 using System.Runtime.Serialization.Json;
 using System.Security.Permissions;
 using System.Text;
@@ -174,9 +176,6 @@ namespace LearningByExample1
     #endregion
 
 
-
-
-
     class Serialization
     {
         public void serializeWithXMLserializer()
@@ -321,6 +320,133 @@ namespace LearningByExample1
                 Person3 result = (Person3)ser.ReadObject(stream);
             }
 
+        }
+
+        // Serialize an ArrayList object to a binary file.
+        //Use a formatter to serialize an object and write it to a System.IO.FileStream object
+        //When you need to retrieve the object, use the same formatter 
+        //to read the serialized data from the file and deserialize 
+        //Both the BinaryFormatter and SoapFormatter classes implement 
+        //the interface System.Runtime.Serialization.IFormatter, which defines
+        //two methods: Serialize andDeserialize
+        private static void BinarySerialize(ArrayList list)
+        {
+            using (FileStream str = File.Create("people.bin"))
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                bf.Serialize(str, list);
+                //The Serialize method takes a System.IO.Stream reference
+                //and a System.Object reference as arguments, 
+                //serializes the Object, and writes it to the Stream
+            }
+        }
+        // Deserialize an ArrayList object from a binary file.
+        private static ArrayList BinaryDeserialize()
+        {
+            ArrayList people = null;
+
+            using (FileStream str = File.OpenRead("people.bin"))
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                people = (ArrayList)bf.Deserialize(str);
+            }
+            return people;
+            //The Deserialize method takes a Stream reference as an argument
+            //reads the serialized object data from the Stream
+            //and returns an Object reference to a deserialized object
+            //You must cast the returned Object reference to the correct type.
+        }
+
+        // Serialize an ArrayList object to a SOAP file.
+        //The SoapFormatter class produces a SOAP document
+        private static void SoapSerialize(ArrayList list)
+        {
+            using (FileStream str = File.Create("people.soap"))
+            {
+                SoapFormatter sf = new SoapFormatter();
+                sf.Serialize(str, list);
+            }
+        }
+        // Deserialize an ArrayList object from a SOAP file.
+        private static ArrayList SoapDeserialize()
+        {
+            ArrayList people = null;
+
+            using (FileStream str = File.OpenRead("people.soap"))
+            {
+                SoapFormatter sf = new SoapFormatter();
+                people = (ArrayList)sf.Deserialize(str);
+            }
+            return people;
+        }
+
+        public void serializeDeserializeExample()
+        {
+            // Create and configure the ArrayList to serialize.
+            ArrayList people = new ArrayList();
+            people.Add("Graeme");
+            people.Add("Lin");
+            people.Add("Andy");
+            // Serialize the list to a file in both binary and SOAP form.
+            BinarySerialize(people);
+            SoapSerialize(people);
+            // Rebuild the lists of people from the binary and SOAP
+            // serializations and display them to the console.
+            ArrayList binaryPeople = BinaryDeserialize();
+            ArrayList soapPeople = SoapDeserialize();
+            Console.WriteLine("Binary people:");
+            foreach (string s in binaryPeople)
+            {
+                Console.WriteLine("\t" + s);
+            }
+            Console.WriteLine("\nSOAP people:");
+            foreach (string s in soapPeople)
+            {
+                Console.WriteLine("\t" + s);
+            }
+            // Wait to continue.
+            Console.WriteLine("\nMain method complete. Press Enter");
+        }
+
+        public void JSONserialization()
+        {
+            //1. Create a Stream that either writes to the destination you wish to serialize to 
+            //or is the source of the data you wish to deserialize from
+            //2. Create an instance of DataContractJsonSerializer, 
+            //using the type of the object that you wish to serialize or deserialize
+            //as the constructor argument
+            //3. Call WriteObject (to serialize) or ReadObject (to deserialize) 
+            //using the object you wish to process as a method argument
+
+            // Create a list of strings.
+            List<string> myList = new List<string>()
+            {
+                "apple", "orange", "banana", "cherry"
+            };
+            // Create memory stream - we will use this
+            // to get the JSON serialization as a string.
+            MemoryStream memoryStream = new MemoryStream();
+            // Create the JSON serializer.
+            DataContractJsonSerializer jsonSerializer
+                = new DataContractJsonSerializer(myList.GetType());
+            // Serialize the list.
+            jsonSerializer.WriteObject(memoryStream, myList);
+            // Get the JSON string from the memory stream.
+            string jsonString = Encoding.Default.GetString(memoryStream.ToArray());
+            // Write the string to the console.
+            Console.WriteLine(jsonString);
+
+            // Create a new stream so we can read the JSON data.
+            memoryStream = new MemoryStream(Encoding.Default.GetBytes(jsonString));
+            // Deserialize the list.
+            myList = jsonSerializer.ReadObject(memoryStream) as List<string>;
+            // Enumerate the strings in the list.
+            foreach (string strValue in myList)
+            {
+                Console.WriteLine(strValue);
+            }
+            // Wait to continue.
+            Console.WriteLine("\nMain method complete. Press Enter");
         }
     }
 }

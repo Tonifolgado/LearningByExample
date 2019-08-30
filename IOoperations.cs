@@ -301,7 +301,10 @@ namespace LearningByExample1
 
         #endregion
 
+        public void readUserInputfromConsole()
+        {
 
+        }
 
 
     }
