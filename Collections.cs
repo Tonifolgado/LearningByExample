@@ -14,6 +14,31 @@ namespace LearningByExample1
 
         private bool isDirty = false;
     }
+
+    class Fruit
+    {
+        public Fruit(string nameVal, string colorVal)
+        {
+            Name = nameVal;
+            Color = colorVal;
+        }
+        public string Name { get; set; }
+        public string Color { get; set; }
+    }
+
+    class FruitComparer : IEqualityComparer<Fruit>
+    {
+        public bool Equals(Fruit first, Fruit second)
+        {
+            return first.Name == second.Name && first.Color == second.Color;
+        }
+        public int GetHashCode(Fruit fruit)
+        {
+            return fruit.Name.GetHashCode() + fruit.Name.GetHashCode();
+        }
+    }
+
+
     class Collections
     {
         public void Arrays()
@@ -307,5 +332,67 @@ namespace LearningByExample1
             Console.WriteLine("\nMain method complete. Press Enter");
         }
 
+        public void selectCollectionElements()
+        {
+            //The output of a LINQ query is an instance of IEnumerable 
+            //containing the collection/array elements that meet search criteria
+
+            // Create a list of fruit.
+            List<Fruit> myList = new List<Fruit>() {
+                new Fruit("apple", "green"),
+                new Fruit("orange", "orange"),
+                new Fruit("banana", "yellow"),
+                new Fruit("mango", "yellow"),
+                new Fruit("cherry", "red"),
+                new Fruit("fig", "brown"),
+                new Fruit("cranberry", "red"),
+                new Fruit("pear", "green")
+            };
+            // Select the names of fruit that isn't red and whose name
+            // does not start with the letter "c." . Using LINQ
+            IEnumerable<string> myResult = from e in myList
+                                           where e.Color!= "red" && e.Name[0] != 'c'
+                                           orderby e.Name
+                                           select e.Name;
+            // Write out the results.
+            foreach (string result in myResult)
+            {
+                Console.WriteLine("Result: {0}", result);
+            }
+            // Perform the same query using lambda expressions.
+            myResult = myList.Where(e => e.Color != "red" && e.Name[0]!= 'c').OrderBy(e => e.Name).Select(e => e.Name);
+            // Write out the results.
+            foreach (string result in myResult)
+            {
+                Console.WriteLine("Lambda Result: {0}", result);
+            }
+            Console.WriteLine("\n\nMain method complete. Press Enter");
+        }
+
+        public void removeDuplicateFromCollection()
+        {
+            // Create a list of fruit, including duplicates.
+            List<Fruit> myList = new List<Fruit>() {
+                new Fruit("apple", "green"),
+                new Fruit("apple", "red"),
+                new Fruit("orange", "orange"),
+                new Fruit("orange", "orange"),
+                new Fruit("banana", "yellow"),
+                new Fruit("mango", "yellow"),
+                new Fruit("cherry", "red"),
+                new Fruit("fig", "brown"),
+                new Fruit("fig", "brown"),
+                new Fruit("fig", "brown"),
+                new Fruit("cranberry", "red"),
+                new Fruit("pear", "green")
+            };
+            // Use the Distinct method to remove duplicates
+            // and print out the unique entries that remain.
+            foreach (Fruit fruit in myList.Distinct(new FruitComparer()))
+            {
+                Console.WriteLine("Fruit: {0}:{1}", fruit.Name, fruit.Color);
+            }
+            Console.WriteLine("\n\nMain method complete. Press Enter");
+        }
     }
 }

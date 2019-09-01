@@ -42,6 +42,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
     <Reference Include="System.Xml.Linq" />
@@ -52,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractPlugin.cs" />
     <Compile Include="Collections.cs" />
     <Compile Include="CreateAndUseTypes.cs" />
     <Compile Include="DataManagement.cs" />
@@ -59,14 +61,18 @@
     <Compile Include="EventsCallbacks.cs" />
     <Compile Include="ExceptionHandling.cs" />
     <Compile Include="Generics.cs" />
+    <Compile Include="IPlugin.cs" />
     <Compile Include="LoggingAndTracing.cs" />
     <Compile Include="Multithreading.cs" />
+    <Compile Include="PluginFactory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgramFlow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IOoperations.cs" />
+    <Compile Include="Reflection.cs" />
     <Compile Include="Serialization.cs" />
     <Compile Include="SetsAndArrays.cs" />
+    <Compile Include="SimplePlugin.cs" />
     <Compile Include="StreamManagement.cs" />
     <Compile Include="StringManagement.cs" />
   </ItemGroup>

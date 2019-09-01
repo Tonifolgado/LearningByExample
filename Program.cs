@@ -23,6 +23,7 @@ namespace LearningByExample1
             CreateAndUseTypes typ = new CreateAndUseTypes(25);
             Generics gnr = new Generics();
             DataManagement dtm = new DataManagement();
+            Reflection rfx = new Reflection();
 
             /* PROGRAM FLOW */
             //flw.complexIFstatement('e');
@@ -52,6 +53,8 @@ namespace LearningByExample1
             //clt.foreachLoop();
             //clt.sortArrayAndLists();
             //clt.copyColletionToArray();
+            //clt.selectCollectionElements();
+            //clt.removeDuplicateFromCollection();
 
             /* THREADS */
             //mth.TwoThreads();
@@ -206,6 +209,7 @@ namespace LearningByExample1
             //iop.readAsyncHttpRequest();
             //iop.executeMultipleRequests();
             //iop.executeMultipleRequestsInParallel();
+            //iop.readUserInputfromConsole();
 
             /* STREAM MANAGEMENT */
             //str.fileStreamCreation();
@@ -243,7 +247,8 @@ namespace LearningByExample1
             //ser.usingDataContractSerializer();
             //ser.usingDataContractJsonSerializer();
             //ser.serializeDeserializeExample();
-            ser.JSONserialization();
+            //ser.JSONserialization();
+            //ser.loadAssemblyIntoCurrentAppDomain();//no funciona
 
             /* CREATE AND USE TYPES */
             //typ.valueTypesAndAlias();
@@ -267,6 +272,13 @@ namespace LearningByExample1
 
             /* DATES */
             //dtm.dateTimeManagement();
+            //dtm.largeIntegerValuesCalculate();
+
+            /* REFLECTION */
+            //rfx.retrieveTypeInformation();
+            //rfx.testObjectType();
+            //Reflection.CreateStringBuilder();
+
 
             Console.ReadLine();
         }

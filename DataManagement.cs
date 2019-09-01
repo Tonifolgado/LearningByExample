@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -92,6 +93,22 @@ namespace LearningByExample1
             Console.WriteLine("Now is equal to future: {0}", now == future);
             Console.WriteLine("\nMain method complete. Press Enter");
 
+        }
+
+        public void largeIntegerValuesCalculate()
+        {
+            //Numeric values in the .NET Framework have maximum and minimum values
+            //based on how much memory is allocated by the data type. 
+            //The System.Numerics.BigInteger class has no such limits
+            //Instances of BigInteger are immutable. You perform operations using  static methods 
+
+            // Create a new big integer.
+            BigInteger myBigInt = BigInteger.Multiply(Int64.MaxValue, 2);
+            // Add another value.
+            myBigInt = BigInteger.Add(myBigInt, Int64.MaxValue);
+            // Print out the value.
+            Console.WriteLine("Big Integer Value: {0}", myBigInt);
+            Console.WriteLine("\n\nMain method complete. Press Enter");
         }
     }
 
