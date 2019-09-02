@@ -54,12 +54,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractPlugin.cs" />
+    <Compile Include="Atributos.cs" />
+    <Compile Include="AuthorAttribute.cs" />
     <Compile Include="Collections.cs" />
     <Compile Include="CreateAndUseTypes.cs" />
     <Compile Include="DataManagement.cs" />
     <Compile Include="Encryption.cs" />
     <Compile Include="EventsCallbacks.cs" />
     <Compile Include="ExceptionHandling.cs" />
+    <Compile Include="FakeClass.cs" />
     <Compile Include="Generics.cs" />
     <Compile Include="IPlugin.cs" />
     <Compile Include="LoggingAndTracing.cs" />

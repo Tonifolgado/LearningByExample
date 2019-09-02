@@ -278,6 +278,10 @@ namespace LearningByExample1
             //rfx.retrieveTypeInformation();
             //rfx.testObjectType();
             //Reflection.CreateStringBuilder();
+            //FakeClass.programAttributesInspection();
+            //FakeClass.extractTypeMembers();
+            //FakeClass.invokeTypeMemberUsingReflection();
+            //FakeClass.invokeTypeMemberDinamically();
 
 
             Console.ReadLine();
