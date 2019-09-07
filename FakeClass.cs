@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -122,6 +123,61 @@ namespace LearningByExample1
             Console.WriteLine("\nMain method complete. Press Enter.");
             Console.ReadLine();
         }
+
+        public static void customDynamicTypeManagement()
+        {
+            dynamic dynamicDict = new MyDynamicDictionary();
+            // Set some properties.
+            Console.WriteLine("Setting property values");
+            dynamicDict.FirstName = "Adam";
+            dynamicDict.LastName = "Freeman";
+            // Get some properties.
+            Console.WriteLine("\nGetting property values");
+            Console.WriteLine("Firstname {0}", dynamicDict.FirstName);
+            Console.WriteLine("Lastname {0}", dynamicDict.LastName);
+            // Call an implemented member.
+            Console.WriteLine("\nGetting a static property");
+            Console.WriteLine("Count {0}", dynamicDict.Count);
+            Console.WriteLine("\nGetting a non-existent property");
+            try
+            {
+                Console.WriteLine("City {0}", dynamicDict.City);
+            }
+            catch (Microsoft.CSharp.RuntimeBinder.RuntimeBinderException e)
+            {
+                Console.WriteLine("Caught exception");
+            }
+            Console.WriteLine("\nMain method complete. Press Enter.");
+            Console.ReadLine();
+        }
     }
+    class MyDynamicDictionary : DynamicObject
+    {
+        private IDictionary<string, object> dict = new Dictionary<string, object>();
+        public int Count
+        {
+            get
+            {
+                Console.WriteLine("Get request for Count property");
+                return dict.Count;
+            }
+        }
+
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        {
+            Console.WriteLine("Get request for {0}", binder.Name);
+            return dict.TryGetValue(binder.Name, out result);
+        }
+        public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            Console.WriteLine("Set request for {0}, value {1}", binder.Name, value);
+            dict[binder.Name] = value;
+            return true;
+        }
+
+    }
+
+
+
 }
 

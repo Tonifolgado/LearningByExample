@@ -62,10 +62,14 @@ namespace LearningByExample1
             //mth.HowToStopThread();
             //mth.UseOfThreadStatic();
             //mth.UsingThreadLocalData();
+            //mth.executeMethodAsynchronously();
+            //mth.periodicalMethodExecution();
+            //mth.methodExecutionAtaSpecificTime();
 
             /* TASKS */
             //mth.usingThreadPool();
             //mth.UsingTask();
+            //mth.taskInaThreadPool();
             //mth.usingTaskReturningValue(21);
             //mth.usingTaskContinuation(21);
             //mth.differentContinuationTasks(456);
@@ -282,7 +286,7 @@ namespace LearningByExample1
             //FakeClass.extractTypeMembers();
             //FakeClass.invokeTypeMemberUsingReflection();
             //FakeClass.invokeTypeMemberDinamically();
-
+            //FakeClass.customDynamicTypeManagement();
 
             Console.ReadLine();
         }

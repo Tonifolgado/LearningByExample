@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,304 @@ namespace LearningByExample1
 {
     public class Multithreading
     {
+        // A private class used to pass data to the DisplayMessage method 
+        //when it is executed using the thread pool.
+        private class MessageInfo
+        {
+            private int iterations;
+            private string message;
+            // A constructor that takes configuration settings for the thread.
+            public MessageInfo(int iterations, string message)
+            {
+                this.iterations = iterations;
+                this.message = message;
+            }
+            // Properties to retrieve configuration settings.
+            public int Iterations { get { return iterations; } }
+            public string Message { get { return message; } }
+        }
+
+        // A method that conforms to the System.Threading.WaitCallback 
+        //delegate signature. Displays a message to the console.
+        public static void DisplayMessage(object state)
+        {
+            // Safely cast the state argument to a MessageInfo object.
+            MessageInfo config = state as MessageInfo;
+            // If the config argument is null, no arguments were passed to
+            // the ThreadPool.QueueUserWorkItem method; use default values.
+            if (config == null)
+            {
+                // Display a fixed message to the console three times.
+                for (int count = 0; count < 3; count++)
+                {
+                    Console.WriteLine("A thread pool example.");
+                    // Sleep for the purpose of demonstration. Avoid sleeping
+                    // on thread-pool threads in real applications.
+                    Thread.Sleep(1000);
+                }
+            }
+            else
+            {
+
+                // Display the specified message the specified number of times.
+                for (int count = 0; count < config.Iterations; count++)
+                {
+                    Console.WriteLine(config.Message);
+                    // Sleep for the purpose of demonstration. Avoid sleeping
+                    // on thread-pool threads in real applications.
+                    Thread.Sleep(1000);
+                }
+            }
+        }
+
+        // A utility method for displaying useful trace information to the
+        // console along with details of the current thread.        
+        private static void TraceMsg(DateTime time, string msg)
+        {
+            Console.WriteLine("[{0,3}/{1}] - {2} : {3}",
+                Thread.CurrentThread.ManagedThreadId,
+                Thread.CurrentThread.IsThreadPoolThread ? "pool" : "fore",
+                time.ToString("HH:mm:ss.ffff"), msg);
+        }
+
+        // A delegate that allows you to perform asynchronous execution of
+        // LongRunningMethod.
+        public delegate DateTime AsyncExampleDelegate(int delay, string name);
+
+        // A simulated long-running method.
+        public static DateTime LongRunningMethod(int delay, string name)
+        {
+            TraceMsg(DateTime.Now, name + " example - thread starting.");
+            // Simulate time-consuming processing.
+            Thread.Sleep(delay);
+            TraceMsg(DateTime.Now, name + " example - thread stopping.");
+            // Return the method's completion time.
+            return DateTime.Now;
+        }
+
+        // This method executes LongRunningMethod asynchronously and continues
+        // with other processing. Once the processing is complete, the method
+        // blocks until LongRunningMethod completes.
+        public static void BlockingExample()
+        {
+            Console.WriteLine(Environment.NewLine +
+                "*** Running Blocking Example ***");
+            // Invoke LongRunningMethod asynchronously. Pass null for both the
+            // callback delegate and the asynchronous state object.
+            AsyncExampleDelegate longRunningMethod = LongRunningMethod;
+            IAsyncResult asyncResult = longRunningMethod.BeginInvoke(2000,
+                "Blocking", null, null);
+            // Perform other processing until ready to block.
+            for (int count = 0; count < 3; count++)
+            {
+                TraceMsg(DateTime.Now,
+                    "Continue processing until ready to block...");
+                Thread.Sleep(200);
+            }
+            // Block until the asynchronous method completes.
+            TraceMsg(DateTime.Now,
+                "Blocking until method is complete...");
+            // Obtain the completion data for the asynchronous method.
+            DateTime completion = DateTime.MinValue;
+
+            try
+            {
+                completion = longRunningMethod.EndInvoke(asyncResult);
+            }
+
+            catch
+            {
+                // Catch and handle those exceptions you would if calling
+                // LongRunningMethod directly.
+            }
+            // Display completion information.
+            TraceMsg(completion, "Blocking example complete.");
+        }
+
+        // This method executes LongRunningMethod asynchronously and then
+        // enters a polling loop until LongRunningMethod completes.
+        public static void PollingExample()
+        {
+            Console.WriteLine(Environment.NewLine +
+                "*** Running Polling Example ***");
+            // Invoke LongRunningMethod asynchronously. Pass null for both the
+            // callback delegate and the asynchronous state object.
+            AsyncExampleDelegate longRunningMethod = LongRunningMethod;
+            IAsyncResult asyncResult = longRunningMethod.BeginInvoke(2000,
+                "Polling", null, null);
+            // Poll the asynchronous method to test for completion. If not
+            // complete, sleep for 300 ms before polling again.
+            TraceMsg(DateTime.Now, "Poll repeatedly until method is complete.");
+            while (!asyncResult.IsCompleted)
+            {
+                TraceMsg(DateTime.Now, "Polling...");
+                Thread.Sleep(300);
+            }
+            // Obtain the completion data for the asynchronous method.
+            DateTime completion = DateTime.MinValue;
+            try
+            {
+                completion = longRunningMethod.EndInvoke(asyncResult);
+            }
+            catch
+            {
+                // Catch and handle those exceptions you would if calling
+                // LongRunningMethod directly.
+            }
+
+            // Display completion information.
+            TraceMsg(completion, "Polling example complete.");
+        }
+
+        // This method executes LongRunningMethod asynchronously and then
+        // uses a WaitHandle to wait efficiently until LongRunningMethod
+        // completes. Use of a timeout allows the method to break out of
+        // waiting in order to update the user interface or fail if the
+        // asynchronous method is taking too long.
+        public static void WaitingExample()
+        {
+            Console.WriteLine(Environment.NewLine +
+                "*** Running Waiting Example ***");
+            // Invoke LongRunningMethod asynchronously. Pass null for both the
+            // callback delegate and the asynchronous state object.
+            AsyncExampleDelegate longRunningMethod = LongRunningMethod;
+            IAsyncResult asyncResult = longRunningMethod.BeginInvoke(2000,
+                "Waiting", null, null);
+
+            // Wait for the asynchronous method to complete. Time out after
+            // 300 ms and display status to the console before continuing to
+            // wait.
+            TraceMsg(DateTime.Now, "Waiting until method is complete...");
+            while (!asyncResult.AsyncWaitHandle.WaitOne(300, false))
+            {
+                TraceMsg(DateTime.Now, "Wait timeout...");
+            }
+            // Obtain the completion data for the asynchronous method.
+            DateTime completion = DateTime.MinValue;
+            try
+            {
+                completion = longRunningMethod.EndInvoke(asyncResult);
+            }
+            catch
+            {
+                // Catch and handle those exceptions you would if calling
+                // LongRunningMethod directly.
+            }
+            // Display completion information.
+            TraceMsg(completion, "Waiting example complete.");
+        }
+
+        // This method executes LongRunningMethod asynchronously multiple
+        // times and then uses an array of WaitHandle objects to wait
+        // efficiently until all of the methods are complete. Use of
+        // a timeout allows the method to break out of waiting in order
+        // to update the user interface or fail if the asynchronous
+        // method is taking too long.
+
+        public static void WaitAllExample()
+        {
+            Console.WriteLine(Environment.NewLine +
+                "*** Running WaitAll Example ***");
+            // An ArrayList to hold the IAsyncResult instances for each of the
+            // asynchronous methods started.
+            ArrayList asyncResults = new ArrayList(3);
+            // Invoke three LongRunningMethods asynchronously. Pass null for
+            // both the callback delegate and the asynchronous state object.
+            // Add the IAsyncResult instance for each method to the ArrayList.
+            AsyncExampleDelegate longRunningMethod = LongRunningMethod;
+            asyncResults.Add(longRunningMethod.BeginInvoke(3000,
+                "WaitAll 1", null, null));
+            asyncResults.Add(longRunningMethod.BeginInvoke(2500,
+                "WaitAll 2", null, null));
+            asyncResults.Add(longRunningMethod.BeginInvoke(1500,
+                "WaitAll 3", null, null));
+            // Create an array of WaitHandle objects that will be used to wait
+            // for the completion of all the asynchronous methods.
+            WaitHandle[] waitHandles = new WaitHandle[3];
+            for (int count = 0; count < 3; count++)
+            {
+                waitHandles[count] =
+                    ((IAsyncResult)asyncResults[count]).AsyncWaitHandle;
+            }
+            // Wait for all three asynchronous method to complete. Time out
+            // after 300 ms and display status to the console before continuing
+            // to wait.
+            TraceMsg(DateTime.Now, "Waiting until all 3 methods are complete...");
+            while (!WaitHandle.WaitAll(waitHandles, 300, false))
+            {
+                TraceMsg(DateTime.Now, "WaitAll timeout...");
+            }
+            // Inspect the completion data for each method, and determine the
+            // time at which the final method completed.
+            DateTime completion = DateTime.MinValue;
+
+            foreach (IAsyncResult result in asyncResults)
+            {
+                try
+                {
+                    DateTime time = longRunningMethod.EndInvoke(result);
+                    if (time > completion) completion = time;
+                }
+                catch
+                {
+                    // Catch and handle those exceptions you would if calling
+                    // LongRunningMethod directly.
+                }
+            }
+            // Display completion information.
+            TraceMsg(completion, "WaitAll example complete.");
+        }
+
+        // This method executes LongRunningMethod asynchronously and passes
+        // an AsyncCallback delegate instance. The referenced CallbackHandler
+        // method is called automatically when the asynchronous method
+        // completes, leaving this method free to continue processing.
+        public static void CallbackExample()
+        {
+            Console.WriteLine(Environment.NewLine +
+                "*** Running Callback Example ***");
+            // Invoke LongRunningMethod asynchronously. Pass an AsyncCallback
+            // delegate instance referencing the CallbackHandler method that
+            // will be called automatically when the asynchronous method
+            // completes. Pass a reference to the AsyncExampleDelegate delegate
+            // instance as asynchronous state; otherwise, the callback method
+            // has no access to the delegate instance in order to call
+            // EndInvoke.
+            AsyncExampleDelegate longRunningMethod = LongRunningMethod;
+            IAsyncResult asyncResult = longRunningMethod.BeginInvoke(2000,
+                "Callback", CallbackHandler, longRunningMethod);
+            // Continue with other processing.
+            for (int count = 0; count < 15; count++)
+            {
+                TraceMsg(DateTime.Now, "Continue processing...");
+                Thread.Sleep(200);
+            }
+        }
+
+        // A method to handle asynchronous completion using callbacks.
+        public static void CallbackHandler(IAsyncResult result)
+        {
+
+            // Extract the reference to the AsyncExampleDelegate instance
+            // from the IAsyncResult instance. This allows you to obtain the
+            // completion data.
+            AsyncExampleDelegate longRunningMethod =
+                (AsyncExampleDelegate)result.AsyncState;
+            // Obtain the completion data for the asynchronous method.
+            DateTime completion = DateTime.MinValue;
+            try
+            {
+                completion = longRunningMethod.EndInvoke(result);
+            }
+            catch
+            {
+                // Catch and handle those exceptions you would if calling
+                // LongRunningMethod directly.
+            }
+            // Display completion information.
+            TraceMsg(completion, "Callback example complete.");
+        }
+
 
         #region threads
 
@@ -149,6 +448,68 @@ namespace LearningByExample1
 
         }
 
+        public void periodicalMethodExecution()
+        {
+            //Create a System.Threading.Timer object and pass it 
+            //the method you want to execute along with a state object 
+            //that the timer will pass to your method when the timer expires
+
+            // Create the state object that is passed to the TimerHandler
+            // method when it is triggered. In this case, a message to display.
+            string state = "Timer expired.";
+            Console.WriteLine("{0} : Creating Timer.",
+                DateTime.Now.ToString("HH:mm:ss.ffff"));
+            // Create a timer that fires first after 2 seconds and then every
+            // second. Use an anonymous method for the timer expiry handler.
+            using (Timer timer = new Timer(delegate (object s)
+                {
+                    Console.WriteLine("{0} : {1}",
+                    DateTime.Now.ToString("HH:mm:ss.ffff"), s);
+                }
+                , state, 2000, 1000))
+            {
+                int period;
+                // Read the new timer interval from the console until the
+                // user enters 0 (zero). Invalid values use a default value
+                // of 0, which will stop the example.
+                do
+                {
+                    try
+                    {
+                        period = Int32.Parse(Console.ReadLine());
+                    }
+                    catch (FormatException)
+                    {
+                        period = 0;
+                    }
+                    // Change the timer to fire using the new interval starting
+                    // immediately.
+                    if (period > 0) timer.Change(0, period);
+                } while (period > 0);
+            }
+            // Wait to continue.
+            Console.WriteLine("Main method complete. Press Enter.");
+            Console.ReadLine();
+        }
+
+        public void methodExecutionAtaSpecificTime()
+        {
+            // Create a 30-second timespan.
+            TimeSpan waitTime = new TimeSpan(0, 0, 30);
+            // Create a Timer that fires once at the specified time. 
+            // Specify an interval of −1 to stop the timer 
+            // executing the method repeatedly
+            // Use an anonymous method for the timer expiry handler.
+            new Timer(delegate (object s)
+            {
+                Console.WriteLine("Timer fired at {0}",
+                DateTime.Now.ToString("HH:mm:ss.ffff"));
+            }
+                      , null, waitTime, new TimeSpan(-1));
+            Console.WriteLine("Waiting for timer. Press Enter to terminate.");
+            Console.ReadLine();
+        }
+
         #endregion
 
         #region tasks
@@ -162,6 +523,54 @@ namespace LearningByExample1
                 { Console.Write("*.."); }
             });
             t.Wait();
+        }
+
+        //The .NET Framework provides a simple thread-pool implementation 
+        //accessible through the members of the ThreadPool static class. 
+        //The QueueUserWorkItem method allows you to execute a method 
+        //using a thread-pool thread by placing a work item on a queue
+        public void taskInaThreadPool()
+        {
+            //Declare a method containing the code you want to execute. 
+            //The method's signature must match that defined by 
+            //the System.Threading.WaitCallback delegate
+            //Call the static method QueueUserWorkItem 
+            //of the System.Threading.ThreadPool class, passing it your method name
+            //The runtime will queue your method and execute it 
+            //when a thread-pool thread becomes available.
+
+            // Execute DisplayMessage using the thread pool and no arguments.
+            ThreadPool.QueueUserWorkItem(DisplayMessage);
+            // Create a MessageInfo object to pass to the DisplayMessage method.
+            MessageInfo info = new MessageInfo(5, "A thread pool example with arguments.");
+            // Set the max number of threads.
+            ThreadPool.SetMaxThreads(2, 2);
+            // Execute DisplayMessage using the thread pool 
+            // and providing an argument.
+            ThreadPool.QueueUserWorkItem(DisplayMessage, info);
+            Console.WriteLine("Main method complete. Press Enter.");
+            Console.ReadLine();
+        }
+
+        public void executeMethodAsynchronously()
+        {
+            //Declare a delegate with the same signature as the method
+            //Create an instance of the delegate that references the method
+            //Call the BeginInvoke method of the delegate instance 
+            //to start executing your method
+            //Use the EndInvoke method to determine the method's status
+            //as well as obtain the method's return value if complete.
+
+            // Demonstrate the various approaches to asynchronous method completion.
+            BlockingExample();
+            PollingExample();
+            WaitingExample();
+            WaitAllExample();
+            CallbackExample();
+            // Wait to continue.
+            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine("Main method complete. Press Enter.");
+            Console.ReadLine();
         }
 
         public void usingTaskReturningValue(int entero)
@@ -331,6 +740,8 @@ namespace LearningByExample1
             if (index == -1)
                 Console.WriteLine("Task timed out");
         }
+
+
 
         #endregion
 
