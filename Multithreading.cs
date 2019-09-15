@@ -29,6 +29,26 @@ namespace LearningByExample1
             public string Message { get { return message; } }
         }
 
+        // A private class used to pass initialization data to a new thread.
+        private class ThreadStartData
+        {
+            public ThreadStartData(int iterations, string message, int delay)
+            {
+                this.iterations = iterations;
+
+                this.message = message;
+                this.delay = delay;
+            }
+            // Member variables hold initialization data for a new thread.
+            private readonly int iterations;
+            private readonly string message;
+            private readonly int delay;
+            // Properties provide read-only access to initialization data.
+            public int Iterations { get { return iterations; } }
+            public string Message { get { return message; } }
+            public int Delay { get { return delay; } }
+        }
+
         // A method that conforms to the System.Threading.WaitCallback 
         //delegate signature. Displays a message to the console.
         public static void DisplayMessage(object state)
@@ -310,6 +330,213 @@ namespace LearningByExample1
             TraceMsg(completion, "Callback example complete.");
         }
 
+        // A method that is executed when the AutoResetEvent is signaled
+        // or the wait operation times out.
+        private static void EventHandler(object state, bool timedout)
+        {
+            // Display appropriate message to the console based on whether
+            // the wait timed out or the AutoResetEvent was signaled.
+            if (timedout)
+            {
+                Console.WriteLine("{0} : Wait timed out.",
+                    DateTime.Now.ToString("HH:mm:ss.ffff"));
+            }
+            else
+            {
+                Console.WriteLine("{0} : {1}",
+                    DateTime.Now.ToString("HH:mm:ss.ffff"), state);
+            }
+        }
+
+        // A utility method for displaying useful trace information to the
+        // console along with details of the current thread.
+        private static void TraceMsg(string msg)
+        {
+            Console.WriteLine("[{0,3}] - {1} : {2}",
+                Thread.CurrentThread.ManagedThreadId,
+                DateTime.Now.ToString("HH:mm:ss.ffff"), msg);
+        }
+
+        // Declare the method that will be executed in its own thread. The
+        // method displays a message to the console a specified number of
+        // times, sleeping between each message for a specified duration.
+        private static void DisplayMessage2(object config)
+        {
+            ThreadStartData data = config as ThreadStartData;
+
+            if (data != null)
+            {
+                for (int count = 0; count < data.Iterations; count++)
+                {
+                    TraceMsg(data.Message);
+                    // Sleep for the specified period.
+                    Thread.Sleep(data.Delay);
+                }
+            }
+            else
+            {
+                TraceMsg("Invalid thread configuration.");
+            }
+        }
+
+        // Declare an object for synchronization of access to the console.
+        // A static object is used because you are using it in static methods.
+        private static object consoleGate = new Object();
+        // Declare a Queue to represent the work queue.
+        private static Queue<string> workQueue = new Queue<string>();
+        // Declare a flag to indicate to activated threads that they should
+        // terminate and not process more work items.
+        private static bool processWorkItems = true;
+        // A utility method for displaying useful trace information to the
+        // console along with details of the current thread.
+        private static void TraceMsg2(string msg)
+        {
+            lock (consoleGate)
+            {
+
+
+
+                Console.WriteLine("[{0,3}/{1}] - {2} : {3}",
+                                    Thread.CurrentThread.ManagedThreadId,
+                                    Thread.CurrentThread.IsThreadPoolThread ? "pool" : "fore",
+                                    DateTime.Now.ToString("HH:mm:ss.ffff"), msg);
+            }
+        }
+        // Declare the method that will be executed by each thread to process
+        // items from the work queue.
+        private static void ProcessWorkItems()
+        {
+            // A local variable to hold the work item taken from the work queue.
+            string workItem = null;
+            TraceMsg2("Thread started, processing items from queue...");
+            // Process items from the work queue until termination is signaled.
+            while (processWorkItems)
+            {
+                // Obtain the lock on the work queue.
+                Monitor.Enter(workQueue);
+
+                try
+                {
+                    // Pop the next work item and process it, or wait if none
+                    // is available.
+                    if (workQueue.Count == 0)
+                    {
+                        TraceMsg2("No work items, waiting...");
+                        // Wait until Pulse is called on the workQueue object.
+                        Monitor.Wait(workQueue);
+                    }
+                    else
+                    {
+                        // Obtain the next work item.
+                        workItem = workQueue.Dequeue();
+                    }
+                }
+                finally
+                {
+                    // Always release the lock.
+                    Monitor.Exit(workQueue);
+                }
+                // Process the work item if one was obtained.
+                if (workItem != null)
+                {
+                    // Obtain a lock on the console and display a series
+                    // of messages.
+                    lock (consoleGate)
+                    {
+                        for (int i = 0; i < 5; i++)
+                        {
+                            TraceMsg2("Processing " + workItem);
+                            Thread.Sleep(200);
+                        }
+                    }
+                    // Reset the status of the local variable.
+                    workItem = null;
+                }
+            }
+            // This will be reached only if processWorkItems is false.
+            TraceMsg2("Terminating.");
+        }
+
+        // Boolean to signal that the second thread should terminate.
+        static bool terminate = false;
+        // A utility method for displaying useful trace information to the
+        // console along with details of the current thread.
+        private static void TraceMsg3(string msg)
+        {
+            Console.WriteLine("[{0,3}] - {1} : {2}",
+                Thread.CurrentThread.ManagedThreadId,
+                DateTime.Now.ToString("HH:mm:ss.ffff"), msg);
+        }
+
+        // Declare the method that will be executed on the separate thread.
+        // The method waits on the EventWaitHandle before displaying a message
+        // to the console and then waits two seconds and loops.
+        private static void DisplayMessage3()
+        {
+            // Obtain a handle to the EventWaitHandle with the name "EventExample".
+            EventWaitHandle eventHandle =
+                EventWaitHandle.OpenExisting("EventExample");
+            TraceMsg3("DisplayMessage Started.");
+            while (!terminate)
+            {
+                // Wait on the EventWaitHandle, time out after 2 seconds. WaitOne
+                // returns true if the event is signaled; otherwise, false. The
+                // first time through, the message will be displayed immediately
+                // because the EventWaitHandle was created in a signaled state.
+                if (eventHandle.WaitOne(2000, true))
+                {
+                    TraceMsg3("EventWaitHandle In Signaled State.");
+                }
+                else
+                {
+                    TraceMsg3("WaitOne Timed Out -- " +
+                        "EventWaitHandle In Unsignaled State.");
+                }
+                Thread.Sleep(2000);
+            }
+
+            TraceMsg3("Thread Terminating.");
+        }
+
+        // Boolean to signal that the second thread should terminate.
+        static bool terminate2 = false;
+        // A utility method for displaying useful trace information to the
+        // console along with details of the current thread.
+        private static void TraceMsg4(string msg)
+        {
+            Console.WriteLine("[{0,3}] - {1} : {2}",
+                Thread.CurrentThread.ManagedThreadId,
+                DateTime.Now.ToString("HH:mm:ss.ffff"), msg);
+        }
+        // Declare the method that will be executed on the separate thread.
+        // In a loop the method waits to obtain a Mutex before displaying a
+        // message to the console and then waits 1 second before releasing the
+        // Mutex.
+        private static void DisplayMessage4()
+        {
+            // Obtain a handle to the Mutex with the name "MutexExample".
+            // Do not attempt to take ownership immediately.
+            using (Mutex mutex = new Mutex(false, "MutexExample"))
+            {
+                TraceMsg4("Thread started.");
+                while (!terminate2)
+                {
+                    // Wait on the Mutex.
+                    mutex.WaitOne();
+                    TraceMsg4("Thread owns the Mutex.");
+                    Thread.Sleep(1000);
+                    TraceMsg4("Thread releasing the Mutex.");
+                    // Release the Mutex.
+                    mutex.ReleaseMutex();
+                    // Sleep a little to give another thread a good chance of
+                    // acquiring the Mutex.
+                    Thread.Sleep(100);
+                }
+                TraceMsg4("Thread terminating.");
+            }
+        }
+
+
 
         #region threads
 
@@ -330,6 +557,34 @@ namespace LearningByExample1
                 Thread.Sleep(1000);
             }
 
+        }
+
+        public void methodExecutionUsingNewThread()
+        {
+            // Create a new Thread object specifying DisplayMessage
+            // as the method it will execute.
+            Thread thread = new Thread(DisplayMessage);
+            // Make this a foreground thread - this is the
+            // default - call used for example purposes.
+            thread.IsBackground = false;
+            // Create a new ThreadStartData object to configure the thread.
+            ThreadStartData config =
+                new ThreadStartData(5, "A thread example.", 500);
+            TraceMsg("Starting new thread.");
+
+            // Start the new thread and pass the ThreadStartData object
+            // containing the initialization data.
+            thread.Start(config);
+            // Continue with other processing.
+            for (int count = 0; count < 13; count++)
+            {
+                TraceMsg("Main thread continuing processing...");
+                Thread.Sleep(200);
+            }
+            // Wait to continue.
+            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine("Main method complete. Press Enter.");
+            Console.ReadLine();
         }
 
         public void MethodWithParam(object o)
@@ -507,6 +762,121 @@ namespace LearningByExample1
             }
                       , null, waitTime, new TimeSpan(-1));
             Console.WriteLine("Waiting for timer. Press Enter to terminate.");
+            Console.ReadLine();
+        }
+
+        public void methodExecutionBySignalingWaithandleObject()
+        {
+            //The method's signature must match that defined by 
+            //System.Threading.WaitOrTimerCallback delegate
+            //Using the static ThreadPool.RegisterWaitForSingleObject method
+            //register the method to execute and the WaitHandle object that
+            //will trigger execution when signaled.
+
+            // Create the new AutoResetEvent in an unsignaled state.
+            AutoResetEvent autoEvent = new AutoResetEvent(false);
+
+            // Create the state object that is passed to the event handler
+            // method when it is triggered. In this case, a message to display.
+            string state = "AutoResetEvent signaled.";
+            // Register the EventHandler method to wait for the AutoResetEvent to
+            // be signaled. Set a timeout of 10 seconds, and configure the wait
+            // operation to reset after activation (last argument).
+
+            RegisteredWaitHandle handle = ThreadPool.RegisterWaitForSingleObject(
+                            autoEvent, EventHandler, state, 10000, false);
+
+            Console.WriteLine("Press ENTER to signal the AutoResetEvent" +
+                " or enter \"Cancel\" to unregister the wait operation.");
+
+            while (Console.ReadLine().ToUpper() != "CANCEL")
+            {
+                // If "Cancel" has not been entered into the console, signal
+                // the AutoResetEvent, which will cause the EventHandler
+                // method to execute. The AutoResetEvent will automatically
+                // revert to an unsignaled state.
+                autoEvent.Set();
+            }
+            // Unregister the wait operation.
+            Console.WriteLine("Unregistering wait operation.");
+            handle.Unregister(null);
+            // Wait to continue.
+            Console.WriteLine("Main method complete. Press Enter.");
+            Console.ReadLine();
+        }
+
+        public void synchronizeMultipleThreadsWithAnEvent()
+        {
+            // Create a new EventWaitHandle with an initial signaled state, in
+            // manual mode, with the name "EventExample".
+            using (EventWaitHandle eventWaitHandle =
+                new EventWaitHandle(true, EventResetMode.ManualReset,
+                "EventExample"))
+            {
+                // Create and start a new thread running the DisplayMesssage method.
+                TraceMsg3("Starting DisplayMessageThread.");
+                Thread trd = new Thread(DisplayMessage3);
+                trd.Start();
+                // Allow the EventWaitHandle to be toggled between a signaled and
+                // unsignaled state up to three times before ending.
+                for (int count = 0; count < 3; count++)
+                {
+                    // Wait for Enter to be pressed.
+                    Console.ReadLine();
+                    // You need to toggle the event. The only way to know the
+                    // current state is to wait on it with a 0 (zero) timeout
+                    // and test the result.
+                    if (eventWaitHandle.WaitOne(0, true))
+                    {
+                        TraceMsg3("Switching Event To UnSignaled State.");
+                        // Event is signaled, so unsignal it.
+                        eventWaitHandle.Reset();
+                    }
+                    else
+                    {
+                        TraceMsg3("Switching Event To Signaled State.");
+                        // Event is unsignaled, so signal it.
+                        eventWaitHandle.Set();
+                    }
+                }
+                // Terminate the DisplayMessage thread, and wait for it to
+                // complete before disposing of the EventWaitHandle.
+                terminate = true;
+                eventWaitHandle.Set();
+                trd.Join(5000);
+            }
+            // Wait to continue.
+            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine("Main method complete. Press Enter.");
+            Console.ReadLine();
+        }
+
+        public void synchronizationWithMutex()
+        {
+            // Create a new Mutex with the name "MutexExample".
+            using (Mutex mutex = new Mutex(false, "MutexExample"))
+            {
+                TraceMsg4("Starting threads -- press Enter to terminate.");
+                // Create and start three new threads running the
+                // DisplayMesssage method.
+                Thread trd1 = new Thread(DisplayMessage4);
+                Thread trd2 = new Thread(DisplayMessage4);
+                Thread trd3 = new Thread(DisplayMessage4);
+                trd1.Start();
+                trd2.Start();
+                trd3.Start();
+                // Wait for Enter to be pressed.
+                Console.ReadLine();
+                // Terminate the DisplayMessage threads, and wait for them to
+                // complete before disposing of the Mutex.
+                terminate = true;
+                trd1.Join(5000);
+                trd2.Join(5000);
+                trd3.Join(5000);
+            }
+            // Wait to continue.
+            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine("Main method complete. Press Enter.");
             Console.ReadLine();
         }
 
@@ -1087,8 +1457,71 @@ namespace LearningByExample1
 
         }               
 
+        public void monitorForSynchronize()
+        {
+            TraceMsg2("Starting worker threads.");
+            // Add an initial work item to the work queue.
+            lock (workQueue)
+            {
+                workQueue.Enqueue("Work Item 1");
+            }
+            // Create and start three new worker threads running the
+            // ProcessWorkItems method.
+            for (int count = 0; count < 3; count++)
+            {
+                (new Thread(ProcessWorkItems)).Start();
+            }
+            Thread.Sleep(1500);
+            // The first time the user presses Enter, add a work item and
+            // activate a single thread to process it.
+            TraceMsg2("Press Enter to pulse one waiting thread.");
+            Console.ReadLine();
+            // Acquire a lock on the workQueue object.
+            lock (workQueue)
+            {
+                // Add a work item.
+                workQueue.Enqueue("Work Item 2.");
+
+                // Pulse one waiting thread.
+                Monitor.Pulse(workQueue);
+            }
+            Thread.Sleep(2000);
+            // The second time the user presses Enter, add three work items and
+            // activate three threads to process them.
+            TraceMsg2("Press Enter to pulse three waiting threads.");
+            Console.ReadLine();
+            // Acquire a lock on the workQueue object.
+            lock (workQueue)
+            {
+                // Add work items to the work queue, and activate worker threads.
+                workQueue.Enqueue("Work Item 3.");
+                Monitor.Pulse(workQueue);
+                workQueue.Enqueue("Work Item 4.");
+                Monitor.Pulse(workQueue);
+                workQueue.Enqueue("Work Item 5.");
+                Monitor.Pulse(workQueue);
+            }
+            Thread.Sleep(3500);
+            // The third time the user presses Enter, signal the worker threads
+            // to terminate and activate them all.
+            TraceMsg2("Press Enter to pulse all waiting threads.");
+            Console.ReadLine();
+            // Acquire a lock on the workQueue object.
+            lock (workQueue)
+            {
+                // Signal that threads should terminate.
+                processWorkItems = false;
+                // Pulse all waiting threads.
+                Monitor.PulseAll(workQueue);
+            }
+            Thread.Sleep(1000);
+            // Wait to continue.
+            TraceMsg2("Main method complete. Press Enter.");
+            Console.ReadLine();
+        }
+
         #endregion
-                             
+
         public static bool IsEven(int i)
         {
             if (i % 10 == 0) throw new ArgumentException("i");

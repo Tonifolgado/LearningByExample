@@ -65,6 +65,11 @@ namespace LearningByExample1
             //mth.executeMethodAsynchronously();
             //mth.periodicalMethodExecution();
             //mth.methodExecutionAtaSpecificTime();
+            //mth.methodExecutionBySignalingWaithandleObject();
+            //mth.methodExecutionUsingNewThread();
+            //mth.monitorForSynchronize();
+            //mth.synchronizeMultipleThreadsWithAnEvent();
+            //mth.synchronizationWithMutex();
 
             /* TASKS */
             //mth.usingThreadPool();
