@@ -67,9 +67,6 @@ namespace LearningByExample1
             //mth.methodExecutionAtaSpecificTime();
             //mth.methodExecutionBySignalingWaithandleObject();
             //mth.methodExecutionUsingNewThread();
-            //mth.monitorForSynchronize();
-            //mth.synchronizeMultipleThreadsWithAnEvent();
-            //mth.synchronizationWithMutex();
 
             /* TASKS */
             //mth.usingThreadPool();
@@ -107,6 +104,11 @@ namespace LearningByExample1
             //mth.usingInterLocked();
             //mth.usingCancellationToken();
             //mth.usingOperationCanceledException();
+            //mth.monitorForSynchronize();
+            //mth.synchronizeMultipleThreadsWithAnEvent();
+            //mth.synchronizationWithMutex();
+            //mth.synchronizationWithSemaphore();
+            //mth.synchronizeAccessToSharedDataValue();
 
             /* EXCEPTION HANDLING */
             //exh.catchingFormatException();

@@ -536,6 +536,44 @@ namespace LearningByExample1
             }
         }
 
+        // Boolean to signal that the second thread should terminate.
+        static bool terminate5 = false;
+
+        // A utility method for displaying useful trace information to the
+        // console along with details of the current thread.
+        private static void TraceMsg5(string msg)
+        {
+            Console.WriteLine("[{0,3}] - {1} : {2}",
+                Thread.CurrentThread.ManagedThreadId,
+                DateTime.Now.ToString("HH:mm:ss.ffff"), msg);
+        }
+
+        // Declare the method that will be executed on the separate thread.
+        // In a loop the method waits to obtain a Semaphore before displaying a
+        // message to the console and then waits 1 second before releasing the
+        // Semaphore.
+        private static void DisplayMessage5()
+        {
+            // Obtain a handle to the Semaphore with the name "SemaphoreExample".
+            using (Semaphore sem = Semaphore.OpenExisting("SemaphoreExample"))
+            {
+                TraceMsg5("Thread started.");
+                while (!terminate5)
+                {
+                    // Wait on the Semaphore.
+                    sem.WaitOne();
+                    TraceMsg5("Thread owns the Semaphore.");
+                    Thread.Sleep(1000);
+                    TraceMsg5("Thread releasing the Semaphore.");
+                    // Release the Semaphore.
+                    sem.Release();
+                    // Sleep a little to give another thread a good chance of
+                    // acquiring the Semaphore.
+                    Thread.Sleep(100);
+                }
+                TraceMsg5("Thread terminating.");
+            }
+        }
 
 
         #region threads
@@ -805,80 +843,6 @@ namespace LearningByExample1
             Console.ReadLine();
         }
 
-        public void synchronizeMultipleThreadsWithAnEvent()
-        {
-            // Create a new EventWaitHandle with an initial signaled state, in
-            // manual mode, with the name "EventExample".
-            using (EventWaitHandle eventWaitHandle =
-                new EventWaitHandle(true, EventResetMode.ManualReset,
-                "EventExample"))
-            {
-                // Create and start a new thread running the DisplayMesssage method.
-                TraceMsg3("Starting DisplayMessageThread.");
-                Thread trd = new Thread(DisplayMessage3);
-                trd.Start();
-                // Allow the EventWaitHandle to be toggled between a signaled and
-                // unsignaled state up to three times before ending.
-                for (int count = 0; count < 3; count++)
-                {
-                    // Wait for Enter to be pressed.
-                    Console.ReadLine();
-                    // You need to toggle the event. The only way to know the
-                    // current state is to wait on it with a 0 (zero) timeout
-                    // and test the result.
-                    if (eventWaitHandle.WaitOne(0, true))
-                    {
-                        TraceMsg3("Switching Event To UnSignaled State.");
-                        // Event is signaled, so unsignal it.
-                        eventWaitHandle.Reset();
-                    }
-                    else
-                    {
-                        TraceMsg3("Switching Event To Signaled State.");
-                        // Event is unsignaled, so signal it.
-                        eventWaitHandle.Set();
-                    }
-                }
-                // Terminate the DisplayMessage thread, and wait for it to
-                // complete before disposing of the EventWaitHandle.
-                terminate = true;
-                eventWaitHandle.Set();
-                trd.Join(5000);
-            }
-            // Wait to continue.
-            Console.WriteLine(Environment.NewLine);
-            Console.WriteLine("Main method complete. Press Enter.");
-            Console.ReadLine();
-        }
-
-        public void synchronizationWithMutex()
-        {
-            // Create a new Mutex with the name "MutexExample".
-            using (Mutex mutex = new Mutex(false, "MutexExample"))
-            {
-                TraceMsg4("Starting threads -- press Enter to terminate.");
-                // Create and start three new threads running the
-                // DisplayMesssage method.
-                Thread trd1 = new Thread(DisplayMessage4);
-                Thread trd2 = new Thread(DisplayMessage4);
-                Thread trd3 = new Thread(DisplayMessage4);
-                trd1.Start();
-                trd2.Start();
-                trd3.Start();
-                // Wait for Enter to be pressed.
-                Console.ReadLine();
-                // Terminate the DisplayMessage threads, and wait for them to
-                // complete before disposing of the Mutex.
-                terminate = true;
-                trd1.Join(5000);
-                trd2.Join(5000);
-                trd3.Join(5000);
-            }
-            // Wait to continue.
-            Console.WriteLine(Environment.NewLine);
-            Console.WriteLine("Main method complete. Press Enter.");
-            Console.ReadLine();
-        }
 
         #endregion
 
@@ -1517,6 +1481,155 @@ namespace LearningByExample1
             Thread.Sleep(1000);
             // Wait to continue.
             TraceMsg2("Main method complete. Press Enter.");
+            Console.ReadLine();
+        }
+
+        public void synchronizeMultipleThreadsWithAnEvent()
+        {
+            // Create a new EventWaitHandle with an initial signaled state, in
+            // manual mode, with the name "EventExample".
+            using (EventWaitHandle eventWaitHandle =
+                new EventWaitHandle(true, EventResetMode.ManualReset,
+                "EventExample"))
+            {
+                // Create and start a new thread running the DisplayMesssage method.
+                TraceMsg3("Starting DisplayMessageThread.");
+                Thread trd = new Thread(DisplayMessage3);
+                trd.Start();
+                // Allow the EventWaitHandle to be toggled between a signaled and
+                // unsignaled state up to three times before ending.
+                for (int count = 0; count < 3; count++)
+                {
+                    // Wait for Enter to be pressed.
+                    Console.ReadLine();
+                    // You need to toggle the event. The only way to know the
+                    // current state is to wait on it with a 0 (zero) timeout
+                    // and test the result.
+                    if (eventWaitHandle.WaitOne(0, true))
+                    {
+                        TraceMsg3("Switching Event To UnSignaled State.");
+                        // Event is signaled, so unsignal it.
+                        eventWaitHandle.Reset();
+                    }
+                    else
+                    {
+                        TraceMsg3("Switching Event To Signaled State.");
+                        // Event is unsignaled, so signal it.
+                        eventWaitHandle.Set();
+                    }
+                }
+                // Terminate the DisplayMessage thread, and wait for it to
+                // complete before disposing of the EventWaitHandle.
+                terminate = true;
+                eventWaitHandle.Set();
+                trd.Join(5000);
+            }
+            // Wait to continue.
+            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine("Main method complete. Press Enter.");
+            Console.ReadLine();
+        }
+
+        public void synchronizationWithMutex()
+        {
+            // Create a new Mutex with the name "MutexExample".
+            using (Mutex mutex = new Mutex(false, "MutexExample"))
+            {
+                TraceMsg4("Starting threads -- press Enter to terminate.");
+                // Create and start three new threads running the
+                // DisplayMesssage method.
+                Thread trd1 = new Thread(DisplayMessage4);
+                Thread trd2 = new Thread(DisplayMessage4);
+                Thread trd3 = new Thread(DisplayMessage4);
+                trd1.Start();
+                trd2.Start();
+                trd3.Start();
+                // Wait for Enter to be pressed.
+                Console.ReadLine();
+                // Terminate the DisplayMessage threads, and wait for them to
+                // complete before disposing of the Mutex.
+                terminate = true;
+                trd1.Join(5000);
+                trd2.Join(5000);
+                trd3.Join(5000);
+            }
+            // Wait to continue.
+            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine("Main method complete. Press Enter.");
+            Console.ReadLine();
+        }
+
+        public void synchronizationWithSemaphore()
+        {
+            // Create a new Semaphore with the name "SemaphoreExample". The
+            // Semaphore can be owned by up to two threads at the same time.
+            using (Semaphore sem = new Semaphore(2, 2, "SemaphoreExample"))
+            {
+                TraceMsg5("Starting threads -- press Enter to terminate.");
+
+                // Create and start three new threads running the
+                // DisplayMesssage method.
+                Thread trd1 = new Thread(DisplayMessage5);
+                Thread trd2 = new Thread(DisplayMessage5);
+                Thread trd3 = new Thread(DisplayMessage5);
+                trd1.Start();
+                trd2.Start();
+                trd3.Start();
+                // Wait for Enter to be pressed.
+                Console.ReadLine();
+                // Terminate the DisplayMessage threads and wait for them to
+                // complete before disposing of the Semaphore.
+                terminate5 = true;
+                trd1.Join(5000);
+                trd2.Join(5000);
+                trd3.Join(5000);
+            }
+            // Wait to continue.
+            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine("Main method complete. Press Enter.");
+            Console.ReadLine();
+
+        }
+
+        public void synchronizeAccessToSharedDataValue()
+        {
+            int firstInt = 2500;
+            int secondInt = 8000;
+
+            Console.WriteLine("firstInt initial value = {0}", firstInt);
+            Console.WriteLine("secondInt initial value = {0}", secondInt);
+            // Decrement firstInt in a thread-safe manner.
+            // The thread-safe equivalent of firstInt = firstInt - 1.
+            Interlocked.Decrement(ref firstInt);
+            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine("firstInt after decrement = {0}", firstInt);
+            // Increment secondInt in a thread-safe manner.
+            // The thread-safe equivalent of secondInt = secondInt + 1.
+            Interlocked.Increment(ref secondInt);
+            Console.WriteLine("secondInt after increment = {0}", secondInt);
+            // Add the firstInt and secondInt values, and store the result in firstInt.
+            // The thread-safe equivalent of firstInt = firstInt + secondInt.
+            Interlocked.Add(ref firstInt, secondInt);
+            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine("firstInt after Add = {0}", firstInt);
+            Console.WriteLine("secondInt after Add = {0}", secondInt);
+            // Exchange the value of firstInt with secondInt.
+            // The thread-safe equivalenet of secondInt = firstInt.
+            Interlocked.Exchange(ref secondInt, firstInt);
+            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine("firstInt after Exchange = {0}", firstInt);
+            Console.WriteLine("secondInt after Exchange = {0}", secondInt);
+            // Compare firstInt with secondInt, and if they are equal, set
+            // firstInt to 5000.
+            // The thread-safe equivalenet of:
+            //     if (firstInt == secondInt) firstInt = 5000.
+            Interlocked.CompareExchange(ref firstInt, 5000, secondInt);
+            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine("firstInt after CompareExchange = {0}", firstInt);
+            Console.WriteLine("secondInt after CompareExchange = {0}", secondInt);
+            // Wait to continue.
+            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine("Main method complete. Press Enter.");
             Console.ReadLine();
         }
 
