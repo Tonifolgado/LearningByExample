@@ -575,6 +575,19 @@ namespace LearningByExample1
             }
         }
 
+        private static void DisplayMessage6()
+        {
+            // Display a message to the console five times.
+            for (int count = 0; count < 5; count++)
+            {
+                Console.WriteLine("{0} : DisplayMessage thread",
+                    DateTime.Now.ToString("HH:mm:ss.ffff"));
+                // Sleep for 1 second.
+                Thread.Sleep(1000);
+            }
+        }
+
+
 
         #region threads
 
@@ -655,6 +668,32 @@ namespace LearningByExample1
             Thread t2 = new Thread(new ParameterizedThreadStart(MethodWithParam));
             t2.Start(5);
             t2.Join();
+        }
+
+        public void knowWhenThreadFinishes()
+        {
+            // Create a new Thread to run the DisplayMessage method.
+            Thread thread = new Thread(DisplayMessage6);
+            Console.WriteLine("{0} : Starting DisplayMessage thread.",
+                DateTime.Now.ToString("HH:mm:ss.ffff"));
+            // Start the DisplayMessage thread.
+            thread.Start();
+            // Block until the DisplayMessage thread finishes,
+            // or time out after 2 seconds.
+            if (!thread.Join(2000))
+            {
+                Console.WriteLine("{0} : Join timed out !!",
+                    DateTime.Now.ToString("HH:mm:ss.ffff"));
+            }
+            // Print out the thread status.
+            Console.WriteLine("Thread alive: {0}", thread.IsAlive);
+            // Block again until the DisplayMessage thread finishes with no timeout.
+            thread.Join();
+            // Print out the thread status.
+            Console.WriteLine("Thread alive: {0}", thread.IsAlive);
+            // Wait to continue.
+            Console.WriteLine("Main method complete. Press Enter.");
+            Console.ReadLine();
         }
 
         public void HowToStopThread()

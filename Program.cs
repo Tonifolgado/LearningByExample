@@ -109,6 +109,7 @@ namespace LearningByExample1
             //mth.synchronizationWithMutex();
             //mth.synchronizationWithSemaphore();
             //mth.synchronizeAccessToSharedDataValue();
+            //mth.knowWhenThreadFinishes();
 
             /* EXCEPTION HANDLING */
             //exh.catchingFormatException();
@@ -218,9 +219,18 @@ namespace LearningByExample1
             //iop.webRequestExecution();
             //iop.createAndWriteAsyncToFile();
             //iop.readAsyncHttpRequest();
+            //iop.asyncReadFile();
             //iop.executeMultipleRequests();
             //iop.executeMultipleRequestsInParallel();
             //iop.readUserInputfromConsole();
+            //iop.startNotepadProcess();
+            //iop.terminateNotepadProcess();
+            //iop.infoRetriever(@"c:\windows");//No funciona
+            //iop.fileAndDirAttributes();
+            DirectoryInfo dir = new DirectoryInfo(@"C:\temp");
+            //Console.WriteLine("Total size: " + IOoperations.CalculateDirectorySize(dir, true).ToString() + " bytes.");
+            //iop.readWriteTextFile();
+            //iop.readWriteBinaryFile();
 
             /* STREAM MANAGEMENT */
             //str.fileStreamCreation();

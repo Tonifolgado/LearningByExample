@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace LearningByExample1
@@ -37,6 +39,73 @@ namespace LearningByExample1
             }
         }
 
+        public void infoRetriever(string[] pars)
+        {
+            if (pars.Length == 0)
+            {
+                Console.WriteLine("Please supply a filename.");
+                return;
+            }
+            // Display file information.
+            FileInfo file = new FileInfo(pars[0]);
+            Console.WriteLine("Checking file: " + file.Name);
+            Console.WriteLine("File exists: " + file.Exists.ToString());
+
+            if (file.Exists)
+            {
+                Console.Write("File created: ");
+                Console.WriteLine(file.CreationTime.ToString());
+                Console.Write("File last updated: ");
+                Console.WriteLine(file.LastWriteTime.ToString());
+                Console.Write("File last accessed: ");
+                Console.WriteLine(file.LastAccessTime.ToString());
+                Console.Write("File size (bytes): ");
+                Console.WriteLine(file.Length.ToString());
+
+                Console.Write("File attribute list: ");
+                Console.WriteLine(file.Attributes.ToString());
+            }
+            Console.WriteLine();
+            // Display directory information.
+            DirectoryInfo dir = file.Directory;
+            Console.WriteLine("Checking directory: " + dir.Name);
+            Console.WriteLine("In directory: " + dir.Parent.Name);
+            Console.Write("Directory exists: ");
+            Console.WriteLine(dir.Exists.ToString());
+
+            if (dir.Exists)
+            {
+                Console.Write("Directory created: ");
+                Console.WriteLine(dir.CreationTime.ToString());
+                Console.Write("Directory last updated: ");
+                Console.WriteLine(dir.LastWriteTime.ToString());
+                Console.Write("Directory last accessed: ");
+                Console.WriteLine(dir.LastAccessTime.ToString());
+                Console.Write("Directory attribute list: ");
+                Console.WriteLine(dir.Attributes.ToString());
+                Console.WriteLine("Directory contains: " +
+                  dir.GetFiles().Length.ToString() + " files");
+            }
+            Console.WriteLine();
+            // Display drive information.
+            DriveInfo drv = new DriveInfo(file.FullName);
+            Console.Write("Drive: ");
+            Console.WriteLine(drv.Name);
+            if (drv.IsReady)
+            {
+                Console.Write("Drive type: ");
+                Console.WriteLine(drv.DriveType.ToString());
+                Console.Write("Drive format: ");
+                Console.WriteLine(drv.DriveFormat.ToString());
+                Console.Write("Drive free space: ");
+                Console.WriteLine(drv.AvailableFreeSpace.ToString());
+            }
+            // Wait to continue.
+            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine("Main method complete. Press Enter.");
+            Console.ReadLine();
+        }
+
         public void directoryManagement()
         {
             //create a new directory with the static Directory class or with DirectoryInfo
@@ -47,6 +116,51 @@ namespace LearningByExample1
             var directoryInfo = new DirectoryInfo(@"C:\Temp\ProgrammingInCSharp\DirectoryInfo");
             directoryInfo.Create();
             Console.WriteLine(@"Created a directory with DirectoryInfo in C:\Temp\ProgrammingInCSharp");
+        }
+
+        public static long CalculateDirectorySize(DirectoryInfo directory,
+              bool includeSubdirectories)
+        {
+            long totalSize = 0;
+            // Examine all contained files.
+            foreach (FileInfo file in directory.EnumerateFiles())
+            {
+                totalSize += file.Length;
+            }
+            // Examine all contained directories.
+            if (includeSubdirectories)
+            {
+                foreach (DirectoryInfo dir in directory.EnumerateDirectories())
+                {
+                    totalSize += CalculateDirectorySize(dir, true);
+                }
+            }
+            return totalSize;
+        }
+
+        public void fileAndDirAttributes()
+        {
+            // This file has the archive and read-only attributes.
+            FileInfo file = new FileInfo(@"C:\Windows\win.ini");
+            // This displays the attributes.
+            Console.WriteLine(file.Attributes.ToString());
+            // This test fails because other attributes are set.
+            if (file.Attributes == FileAttributes.ReadOnly)
+            {
+                Console.WriteLine("File is read-only (faulty test).");
+            }
+            // This test succeeds because it filters out just the
+            // read-only attribute.
+            if ((file.Attributes & FileAttributes.ReadOnly) ==
+              FileAttributes.ReadOnly)
+            {
+                Console.WriteLine("File is read-only (correct test).");
+            }
+            // Wait to continue.
+            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine("Main method complete. Press Enter.");
+            Console.ReadLine();
+
         }
 
         public void deleteExistingDir()
@@ -223,7 +337,86 @@ namespace LearningByExample1
             response.Close();
 
         }
-        
+
+        public void startNotepadProcess()
+        {
+            // Create a ProcessStartInfo object and configure it with the
+            // information required to run the new process.
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.FileName = "notepad.exe";
+            startInfo.Arguments = "file.txt";
+            startInfo.WorkingDirectory = @"C:\Temp";
+            startInfo.WindowStyle = ProcessWindowStyle.Maximized;
+            startInfo.ErrorDialog = true;
+            // Declare a new Process object.
+            Process process;
+
+            try
+            {
+                // Start the new process.
+                process = Process.Start(startInfo);
+                // Wait for the new process to terminate before exiting.
+                Console.WriteLine("Waiting 30 seconds for process to finish.");
+
+                if (process.WaitForExit(30000))
+                {
+                    Console.WriteLine("Process terminated.");
+                }
+                else
+                {
+                    Console.WriteLine("Timed out waiting for process to end.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Could not start process.");
+                Console.WriteLine(ex);
+            }
+
+            // Wait to continue.
+            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine("Main method complete. Press Enter.");
+            Console.ReadLine();
+        }
+
+        public void terminateNotepadProcess()
+        {
+            // Create a new Process and run notepad.exe.
+            using (Process process =
+                Process.Start("notepad.exe", @"c:\temp\someFile.txt"))
+            {
+                // Wait for 5 seconds and terminate the notepad process.
+                Console.WriteLine(
+                    "Waiting 5 seconds before terminating notepad.exe.");
+                Thread.Sleep(5000);
+                // Terminate notepad process.
+                Console.WriteLine("Terminating Notepad with CloseMainWindow.");
+
+                // Try to send a close message to the main window.
+                if (!process.CloseMainWindow())
+                {
+                    // Close message did not get sent - Kill Notepad.
+                    Console.WriteLine("CloseMainWindow returned false - " +
+                        " terminating Notepad with Kill.");
+                    process.Kill();
+                }
+                else
+                {
+                    // Close message sent successfully; wait for 2 seconds
+                    // for termination confirmation before resorting to Kill.
+                    if (!process.WaitForExit(2000))
+                    {
+                        Console.WriteLine("CloseMainWindow failed to" +
+                            " terminate - terminating Notepad with Kill.");
+                        process.Kill();
+                    }
+                }
+            }
+            // Wait to continue.
+            Console.WriteLine("Main method complete. Press Enter.");
+            Console.ReadLine();
+        }
+
         #region ReadingFiles
 
         void readFileIntoString(string filepath)
@@ -254,6 +447,83 @@ namespace LearningByExample1
             if (sr != null) sr.Close(); // should be in a finally or using block
         }
 
+        public void readWriteTextFile()
+        {
+            // Create a new file.
+            using (FileStream fs = new FileStream("test.txt", FileMode.Create))
+            {
+                // Create a writer and specify the encoding.
+                // The default (UTF-8) supports special Unicode characters,
+                // but encodes all standard characters in the same way as
+                // ASCII encoding.
+                using (StreamWriter w = new StreamWriter(fs, Encoding.UTF8))
+                {
+                    // Write a decimal, string, and char.
+                    w.WriteLine(124.23M);
+                    w.WriteLine("Test string");
+                    w.WriteLine('!');
+                }
+            }
+            Console.WriteLine("Press Enter to read the information.");
+            Console.ReadLine();
+            // Open the file in read-only mode.
+            using (FileStream fs = new FileStream("test.txt", FileMode.Open))
+            {
+                using (StreamReader r = new StreamReader(fs, Encoding.UTF8))
+                {
+                    // Read the data and convert it to the appropriate data type.
+                    Console.WriteLine(Decimal.Parse(r.ReadLine()));
+                    Console.WriteLine(r.ReadLine());
+                    Console.WriteLine(Char.Parse(r.ReadLine()));
+                }
+            }
+            // Wait to continue.
+            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine("Main method complete. Press Enter.");
+            Console.ReadLine();
+        }
+
+        public void readWriteBinaryFile()
+        {
+            // Create a new file and writer.
+            using (FileStream fs = new FileStream("test.bin", FileMode.Create))
+            {
+                using (BinaryWriter w = new BinaryWriter(fs))
+                {
+                    // Write a decimal, two strings, and a char.
+                    w.Write(124.23M);
+                    w.Write("Test string");
+                    w.Write("Test string 2");
+                    w.Write('!');
+                }
+            }
+            Console.WriteLine("Press Enter to read the information.");
+            Console.ReadLine();
+            // Open the file in read-only mode.
+            using (FileStream fs = new FileStream("test.bin", FileMode.Open))
+            {
+                // Display the raw information in the file.
+                using (StreamReader sr = new StreamReader(fs))
+                {
+                    Console.WriteLine(sr.ReadToEnd());
+                    Console.WriteLine();
+                    // Read the data and convert it to the appropriate data type.
+                    fs.Position = 0;
+                    using (BinaryReader br = new BinaryReader(fs))
+                    {
+                        Console.WriteLine(br.ReadDecimal());
+                        Console.WriteLine(br.ReadString());
+                        Console.WriteLine(br.ReadString());
+                        Console.WriteLine(br.ReadChar());
+                    }
+                }
+            }
+            // Wait to continue.
+            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine("Main method complete. Press Enter.");
+            Console.ReadLine();
+        }
+
         #endregion
 
         #region asyncAndParallel
@@ -267,6 +537,33 @@ namespace LearningByExample1
 
                 await stream.WriteAsync(data, 0, data.Length);
             }
+        }
+
+        public void asyncReadFile()
+        {
+            // Create a test file.
+            using (FileStream fs = new FileStream("test2.txt", FileMode.Create))
+            {
+                fs.SetLength(100000);
+            }
+
+            // Start the asynchronous file processor on another thread.
+            AsyncProcessor asyncIO = new AsyncProcessor("test2.txt");
+            asyncIO.StartProcess();
+            // At the same time, do some other work.
+            // In this example, we simply loop for 10 seconds.
+            DateTime startTime = DateTime.Now;
+            while (DateTime.Now.Subtract(startTime).TotalSeconds < 2)
+            {
+                Console.WriteLine("[MAIN THREAD]: Doing some work.");
+                // Pause to simulate a time-consuming operation.
+                Thread.Sleep(TimeSpan.FromMilliseconds(100));
+            }
+
+            Console.WriteLine("[MAIN THREAD]: Complete.");
+            Console.ReadLine();
+            // Remove the test file.
+            File.Delete("test2.txt");
         }
 
         public async Task readAsyncHttpRequest()

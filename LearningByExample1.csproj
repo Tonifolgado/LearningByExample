@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractPlugin.cs" />
+    <Compile Include="AsyncProcessor.cs" />
     <Compile Include="Atributos.cs" />
     <Compile Include="AuthorAttribute.cs" />
     <Compile Include="Collections.cs" />
