@@ -9,7 +9,7 @@ namespace LearningByExample1
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Assembly,
              AllowMultiple = true, Inherited = false)]
 
-public class AuthorAttribute : System.Attribute
+public class AuthorAttribute : Attribute
     {
         private string company; // Creator's company
         private string name;    // Creator's name
